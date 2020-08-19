@@ -6,7 +6,7 @@ import { List } from '../List';
 export const Board: React.FC = (): JSX.Element => {
   return (
     <div className="board">
-      <h3>Board</h3>
+      <h3>BoardName</h3>
       <List />
     </div>
   );
