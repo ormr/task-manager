@@ -8,18 +8,18 @@ export const REMOVE_LIST = 'REMOVE_LIST';
 // Board
 
 export interface IBoard {
-  id: string
+  id?: string
   title: string
 }
 
 interface createBoardAction {
   type: typeof CREATE_BOARD
-  payload: string
+  payload: IBoard
 };
 
 interface removeBoardAction {
   type: typeof REMOVE_BOARD
-  payload?: string
+  payload?: IBoard
 };
 
 export type boardActionTypes = createBoardAction | removeBoardAction;

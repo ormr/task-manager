@@ -6,6 +6,7 @@ import './App.css';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
 
+import { AddBoard } from './AddBoard'
 import { Board } from '../Board';
 
 export const App: React.FC = (): JSX.Element => {
@@ -14,10 +15,7 @@ export const App: React.FC = (): JSX.Element => {
       <section className="app">
         <Board />
         <Board />
-        <Board />
-        <Board />
-        <Board />
-        <Board />
+        <AddBoard />
       </section>
     </Provider>
   );
