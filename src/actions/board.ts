@@ -6,14 +6,16 @@ interface Props {
 }
 
 export const createBoard = ({ title }: Props) => 
-  (dispatch: any) => {
-    dispatch({
-      type: CREATE_BOARD,
-      payload: {
-        title
-      }
-    });
-}
+  (dispatch: Dispatch<boardActionTypes>) => {
+    if (title) {
+      dispatch({
+        type: CREATE_BOARD,
+        payload: {
+          title
+        }
+      });
+    }
+};
 
 export const removeBoard = () => 
   (dispatch: Dispatch<boardActionTypes>) => {

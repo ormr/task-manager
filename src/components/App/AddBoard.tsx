@@ -9,11 +9,11 @@ interface Props {
 const AddBoardView: React.FC<Props> = ({ createBoard }: Props) => {
   const [title, setTitle] = React.useState('');
   return (
-    <div>
-      <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}/>
-      <button onClick={() => createBoard(title)}>Add Board</button>
+    <div className="add-board-field">
+      <input type="text" value={title} placeholder="Board title" onChange={(e) => setTitle(e.target.value)}/>
+      <button onClick={() => createBoard({title})}>Add Board</button>
     </div>
   );
 }
 
-export const AddBoard = connect(null, {createBoard})(AddBoardView);
+export const AddBoard = connect(null, { createBoard })(AddBoardView);

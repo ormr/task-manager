@@ -8,7 +8,8 @@ const initialState: IBoard[] = [
 export const board: Reducer = (state = initialState, action: boardActionTypes) => {
   switch (action.type) {
     case CREATE_BOARD:
-      return state;
+      const title = action.payload.title;
+      return [...state, { title }]
     case REMOVE_BOARD:
       return state;
     default:

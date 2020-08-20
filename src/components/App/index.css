@@ -1,0 +1,30 @@
+.app {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.add-board-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-board-field input {
+  padding-left: 10px;
+  height: 45px;
+  border: 1px solid #000;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px
+}
+
+.add-board-field button {
+  cursor: pointer;
+  background-color: #70e877;
+  height: 30px;
+  border-top: 0;
+  border: 1px solid #000;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px
+}

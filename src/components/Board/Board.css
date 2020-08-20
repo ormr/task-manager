@@ -1,6 +1,8 @@
 .board {
-  background-color: #c0c0c0;
+  background-color: #70e877;
   border: 1px solid #000;
+  border-radius: 5px;
+  padding: 10px;
   max-width: 350px;
   min-width: 300px;
   width: 100%;

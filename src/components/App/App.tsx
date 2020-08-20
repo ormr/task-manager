@@ -1,22 +1,25 @@
 import React from 'react';
-import './App.css';
-
-// Redux
+import { connect } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import './index.css';
 
 import { Provider } from 'react-redux';
 import { store } from '../../store';
 
-import { AddBoard } from './AddBoard'
-import { Board } from '../Board';
+import { BoardsPage } from '../../pages/BoardsPage';
 
-export const App: React.FC = (): JSX.Element => {
+const App: React.FC = (): JSX.Element => {
   return (
     <Provider store={store}>
-      <section className="app">
-        <Board />
-        <Board />
-        <AddBoard />
-      </section>
+      <Router>
+        <Switch>
+          <Route path="/" render={() => <BoardsPage />} exact/>
+        </Switch>
+      </Router>
     </Provider>
   );
 }
+
+export {
+  App
+};
