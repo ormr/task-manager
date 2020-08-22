@@ -5,6 +5,20 @@ export const REMOVE_CARD = 'REMOVE_CARD';
 export const ADD_LIST = 'ADD_LIST';
 export const REMOVE_LIST = 'REMOVE_LIST';
 
+
+export interface IState {
+  id: number
+  title: string
+  lists: {
+    id: number
+    title: string
+    cards: {
+      id: number
+      text: string
+    }[]
+  }[]
+};
+
 // Board
 
 export interface IBoard {
@@ -40,14 +54,28 @@ export type cardActionTypes = addCardAction | removeCardAction;
 
 // List
 
+export interface IList {
+  boardId: number
+  id: number
+  title: string
+};
+
 interface addListAction {
   type: typeof ADD_LIST
-  payload: string
+  payload: IList
 };
 
 interface removeListAction {
   type: typeof REMOVE_LIST
-  payload?: string
+  payload?: IList
 };
 
 export type listActionTypes = addListAction | removeListAction;
+
+export type stateActionTypes =
+  | createBoardAction
+  | removeBoardAction
+  | addCardAction
+  | removeCardAction
+  | addListAction
+  | removeListAction;

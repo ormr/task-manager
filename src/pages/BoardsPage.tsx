@@ -2,15 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import './BoardsPage.css'
 
-import { Board } from '../components/Board';
+import { BoardLink } from '../components/Board';
 import { AddBoard } from '../components/App/AddBoard';
 
-const BoardsPageView: React.FC = ({ board }: any): JSX.Element => {
+const BoardsPageView: React.FC = ({reducer}: any): JSX.Element => {
   return (
     <div className="boards">
       {
-        board.map(({ title }: any, index: number) => (
-          <Board key={index} title={title} />
+        reducer.map(({ title }: any, index: number) => (
+          <BoardLink key={index} id={index} title={title} />
         ))
       }
         <AddBoard />
@@ -18,9 +18,10 @@ const BoardsPageView: React.FC = ({ board }: any): JSX.Element => {
   );
 };
 
-const mapStateToProps = ({ board }: any) => {
+const mapStateToProps = ({ reducer }: any) => {
+  console.log(reducer)
   return {
-    board
+    reducer
   };
 }
 

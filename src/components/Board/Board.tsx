@@ -1,18 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Board.css';
+import React from "react";
+// import { connect } from 'react-redux';
+import "./index.css";
 
-import { List } from '../List';
-
-interface Props {
-  title: string
-};
-
-export const Board: React.FC<Props> = ({ title }: Props): JSX.Element => {
+const Board: React.FC<{ title: string }> = ({ title }: {title: string}): JSX.Element => {
   return (
-    <div className="board">
-      <h3>{title}</h3>
-      <Link to="/shit">Go</Link>
+    <div>
+      { title }
     </div>
   );
-}
+};
+
+// const mapStateToProps = (state: any) => state;
+
+// const Board = connect(mapStateToProps)(BoardView);
+
+export {
+  Board
+};

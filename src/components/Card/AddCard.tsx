@@ -1,18 +1,19 @@
 import React from 'react';
+
 import { connect } from 'react-redux';
 import { createBoard } from '../../actions/board';
 
 interface Props {
   reducer: any,
-  createBoard: (props: any) => any
+  addCard: (props: any) => any
 }
 
-const AddBoardView: React.FC<Props> = ({ reducer, createBoard }: Props) => {
+const AddCardView: React.FC<Props> = ({ reducer, addCard }: Props) => {
   const id = reducer.length;
   const [title, setTitle] = React.useState('');
 
   const onCreateBoard = (id: any, title: any) => {
-    createBoard({id, title});
+    addCard({id, title});
     setTitle('');
   }
   return (
@@ -29,4 +30,4 @@ const mapStateToProps = ({reducer}: any) => {
   };
 }
 
-export const AddBoard = connect(mapStateToProps, { createBoard })(AddBoardView);
+export const AddCard = connect(mapStateToProps, { createBoard })(AddCardView);
