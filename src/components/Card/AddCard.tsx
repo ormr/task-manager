@@ -1,25 +1,33 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { createBoard } from '../../actions/board';
+import { addCardItem } from '../../actions/card';
 
 interface Props {
-  reducer: any,
-  addCard: (props: any) => any
+  listId: number
+  boardId: number
+  reducer: any
+  addCardItem: (props: any) => any
 }
 
-const AddCardView: React.FC<Props> = ({ reducer, addCard }: Props) => {
-  const id = reducer.length;
-  const [title, setTitle] = React.useState('');
+const AddCardView: React.FC<Props> = ({ boardId, listId, reducer, addCardItem }: Props) => {
+  const [text, setText] = React.useState('');
 
-  const onCreateBoard = (id: any, title: any) => {
-    addCard({id, title});
-    setTitle('');
+  const id = reducer[boardId].lists[listId].cards.length;
+
+  const onAddCard = (id: number, boardId: number, listId: number, text: string) => {
+    addCardItem({
+        id,
+        boardId,
+        listId,
+        text
+      });
+    setText('');
   }
   return (
     <div className="add-board-field">
-      <input type="text" value={title} placeholder="Board title" onChange={(e) => setTitle(e.target.value)}/>
-      <button onClick={() => onCreateBoard(id, title)}>Add Board</button>
+      <input type="text" value={text} placeholder="Card text" onChange={(e) => setText(e.target.value)}/>
+      <button onClick={() => onAddCard(id, boardId, listId, text)}>Add Card</button>
     </div>
   );
 }
@@ -30,4 +38,4 @@ const mapStateToProps = ({reducer}: any) => {
   };
 }
 
-export const AddCard = connect(mapStateToProps, { createBoard })(AddCardView);
+export const AddCard = connect(mapStateToProps, { addCardItem })(AddCardView);

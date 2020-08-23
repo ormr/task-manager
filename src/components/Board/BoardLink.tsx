@@ -2,8 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './index.css';
 
-import { List } from '../List';
-
 interface Props {
   id: number
   title: string

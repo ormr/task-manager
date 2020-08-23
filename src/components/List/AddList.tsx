@@ -12,7 +12,7 @@ interface Props {
 const AddListView: React.FC<Props> = ({ boardId, reducer, addList }:Props) => {
   const id: number = reducer[boardId].lists.length;
   const [title, setTitle] = React.useState('');
-  const onAddList = (boardId: any, id: any, title: any) => {
+  const onAddList = (boardId: number, id: any, title: any) => {
     addList({ boardId, id, title });
     setTitle('');
   }
@@ -24,7 +24,7 @@ const AddListView: React.FC<Props> = ({ boardId, reducer, addList }:Props) => {
         placeholder="List title"
         onChange={(e) => setTitle(e.target.value)}
       />
-      <button onClick={() => title ? addList({ boardId, id, title }) : null}>Add List</button>
+      <button onClick={() => title ? onAddList(boardId, id, title) : null}>Add List</button>
     </div>
   );
 };

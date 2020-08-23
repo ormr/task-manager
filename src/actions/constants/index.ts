@@ -40,14 +40,21 @@ export type boardActionTypes = createBoardAction | removeBoardAction;
 
 // Card
 
+export interface ICard {
+  id: number
+  listId: number
+  boardId: number
+  text: string
+}
+
 interface addCardAction {
   type: typeof ADD_CARD
-  payload: string
+  payload: ICard
 };
 
 interface removeCardAction {
   type: typeof REMOVE_CARD
-  payload?: string
+  payload?: ICard
 };
 
 export type cardActionTypes = addCardAction | removeCardAction;

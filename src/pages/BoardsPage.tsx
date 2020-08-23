@@ -19,7 +19,6 @@ const BoardsPageView: React.FC = ({reducer}: any): JSX.Element => {
 };
 
 const mapStateToProps = ({ reducer }: any) => {
-  console.log(reducer)
   return {
     reducer
   };

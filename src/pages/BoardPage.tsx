@@ -20,16 +20,17 @@ const BoardPageView: React.FC<Props> = ({ id, reducer }: Props): JSX.Element => 
     );
   }
 
-  console.log(reducer[id]);
+  const boardId = +id;
+
   return (
     <div className="boards">
       <Link to="/">Return</Link>
       {
-        reducer[id].lists.map(({ id, title }: any, index: number) => (
-          <List key={index} id={id} title={ title } />
+        reducer[boardId].lists.map(({ id, title }: any, index: number) => (
+          <List key={index} listId={index} boardId={boardId} title={ title } />
         ))
       }
-      <AddList boardId={id}/> 
+      <AddList boardId={boardId}/> 
     </div>
   );
 }

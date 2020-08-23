@@ -1,19 +1,21 @@
 import { Dispatch } from 'redux';
-import { ADD_CARD, REMOVE_CARD, cardActionTypes } from './constants';
+import { ICard, ADD_CARD, REMOVE_CARD, cardActionTypes } from './constants';
 
-interface Props {
-  title: string
-}
 
-export const addCard = ({ title }: Props) => 
+export const addCardItem = ({ id, listId, boardId, text }: ICard) => 
   (dispatch: Dispatch<cardActionTypes>) => {
     dispatch({
       type: ADD_CARD,
-      payload: title
+      payload: {
+        id,
+        listId,
+        boardId,
+        text
+      }
     });
 }
 
-export const removeCard = () => 
+export const removeCardItem = () => 
   (dispatch: Dispatch<cardActionTypes>) => {
     dispatch({
       type: REMOVE_CARD
