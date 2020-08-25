@@ -9,9 +9,8 @@ interface Props {
 
 export const BoardLink: React.FC<Props> = ({ id, title }: Props): JSX.Element => {
   return (
-    <div className="board">
+    <Link to={"/board/" + id} className="board">
       <h3>{title}</h3>
-      <Link to={"/board/" + id }>Go</Link>
-    </div>
+    </Link>
   );
 }

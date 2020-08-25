@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './BoardsPage.css'
 
 import { BoardLink } from '../components/Board';
-import { AddBoard } from '../components/App/AddBoard';
+import { AddBoard } from '../components/Board/AddBoard';
 
 const BoardsPageView: React.FC = ({reducer}: any): JSX.Element => {
   return (

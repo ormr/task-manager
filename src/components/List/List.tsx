@@ -15,13 +15,15 @@ interface Props {
 export const ListView: React.FC<Props> = ({ boardId, listId, title, reducer }: Props): JSX.Element => {
   console.log(reducer[boardId].lists[listId].cards)
   return (
-    <div className="board">
+    <div className="list-item">
       <h3>{ title }</h3>
-      {
+      <div className="list-item-inner">
+        {
         reducer[boardId].lists[listId].cards.map(({text}: any, index: number) => (
-          <div key={index}>{text}</div>
+          <Card key={index} boardId={boardId} id={index} text={text} />
         ))
-      }
+        }
+      </div>
       <AddCard listId={listId} boardId={boardId}/>
     </div>
   );

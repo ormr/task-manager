@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './index.css';
 
+import { DndProvider } from 'react-dnd';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
 
