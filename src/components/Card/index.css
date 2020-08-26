@@ -6,7 +6,9 @@
 }
 
 .add-card-item {
-  margin: 14px -20px -14px;
+  position: absolute;
+  width: 320px;
+  margin: 0 -10px;
 }
 
 .add-card-item input {

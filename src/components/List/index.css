@@ -1,10 +1,9 @@
 .list-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  position: relative;
+  user-select: none;
   background-color: #F2F5FC;
   border-radius: 5px;
-  padding: 15px 20px;
+  padding: 15px 10px 75px;
   margin: 0px 15px;
   min-width: 320px;
 }

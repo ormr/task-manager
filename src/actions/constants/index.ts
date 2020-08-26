@@ -41,7 +41,7 @@ export type boardActionTypes = createBoardAction | removeBoardAction;
 // Card
 
 export interface ICard {
-  id: number
+  id: string
   listId: number
   boardId: number
   text: string

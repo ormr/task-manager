@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Droppable } from 'react-beautiful-dnd';
 import './index.css';
 
 import { Card } from '../Card';
@@ -12,22 +13,30 @@ interface Props {
   reducer: any
 }
 
-export const ListView: React.FC<Props> = ({ boardId, listId, title, reducer }: Props): JSX.Element => {
-  console.log(reducer[boardId].lists[listId].cards)
+export const ListView: React.FC<Props> = ({boardId, listId, title, reducer }: Props): JSX.Element => {
   return (
-    <div className="list-item">
-      <h3>{ title }</h3>
-      <div className="list-item-inner">
-        {
-        reducer[boardId].lists[listId].cards.map(({text}: any, index: number) => (
-          <Card key={index} boardId={boardId} id={index} text={text} />
-        ))
-        }
-      </div>
-      <AddCard listId={listId} boardId={boardId}/>
-    </div>
+    <Droppable droppableId={String(listId)}>
+    {
+      (provided) => (
+        <div ref={provided.innerRef} {...provided.droppableProps} className="list-item">
+          <h3>{title}</h3>
+          <div className="list-item-inner">
+            {
+              reducer[boardId].lists[listId].cards.map(
+                ({ id, text }: any, index: number) => (
+                  <Card key={index} boardId={boardId} id={id} index={index} text={text} />
+                )
+              )
+            }
+          </div>
+          <AddCard listId={listId} boardId={boardId} />
+          {provided.placeholder}
+        </div>
+      )
+    }
+    </Droppable>
   );
-}
+};
 
 const mapStateToProps = ({ reducer }: any) => {
   return {
