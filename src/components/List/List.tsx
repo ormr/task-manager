@@ -24,7 +24,7 @@ export const ListView: React.FC<Props> = ({boardId, listId, title, reducer }: Pr
             {
               reducer[boardId].lists[listId].cards.map(
                 ({ id, text }: any, index: number) => (
-                  <Card key={index} boardId={boardId} id={id} index={index} text={text} />
+                  <Card key={id} boardId={boardId} id={id} index={index} text={text} />
                 )
               )
             }

@@ -4,16 +4,19 @@ import { Link } from 'react-router-dom';
 import { DragDropContext } from 'react-beautiful-dnd';
 import './BoardsPage.css';
 
+import { moveCardItem } from '../actions/card';
+import { IDrag } from '../actions/constants';
 import { AddList } from '../components/List/AddList'
 import { List } from '../components/List/List';
 import { ErrorPage } from './ErrorPage';
 
 interface Props {
-  id: number,
+  id: number
   reducer: any
+  moveCardItem: (props: IDrag) => void
 }
 
-const BoardPageView: React.FC<Props> = ({ id, reducer }: Props): JSX.Element => {
+const BoardPageView: React.FC<Props> = ({ id, reducer, moveCardItem }: Props): JSX.Element => {
 
   if (!reducer[id]) {
     return (
@@ -32,7 +35,14 @@ const BoardPageView: React.FC<Props> = ({ id, reducer }: Props): JSX.Element => 
 
     if (!destination) return;
 
-    
+    moveCardItem({
+      boardId: id,
+      droppableIdStart: source.droppableId,
+      droppableIdEnd: destination.droppableId,
+      droppableIndexStart: source.index,
+      droppableIndexEnd: destination.index,
+      draggableId
+    })    
   }
 
 return (
@@ -80,5 +90,4 @@ const mapStateToProps = ({ reducer }: any) => {
   };
 };
 
-export const BoardPage = connect(mapStateToProps)(BoardPageView);
-// export const BoardsPage = connect(mapStateToProps)(BoardPageView);
+export const BoardPage = connect(mapStateToProps, { moveCardItem })(BoardPageView);

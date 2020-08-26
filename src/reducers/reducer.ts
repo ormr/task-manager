@@ -4,6 +4,7 @@ import {
   CREATE_BOARD,
   REMOVE_BOARD,
   ADD_CARD,
+  CARD_DRAG_HAPPENED,
   REMOVE_CARD,
   ADD_LIST,
   REMOVE_LIST,
@@ -15,10 +16,11 @@ const initialState: IState[] = [
 
 export const reducer: Reducer = (state = initialState, action: stateActionTypes) => {
   switch (action.type) {
-    case CREATE_BOARD:
+    case CREATE_BOARD: {
       const boardId = action.payload.id;
       const boardTitle = action.payload.title;
       return [...state, { id: boardId, title: boardTitle, lists: [] }];
+    }
     case REMOVE_BOARD:
       return state;
     case ADD_CARD:
@@ -44,7 +46,26 @@ export const reducer: Reducer = (state = initialState, action: stateActionTypes)
         ...state.slice(0, action.payload.boardId),
         newBoardWithCards,
         ...state.slice(action.payload.boardId + 1)
-      ]
+      ];
+    case CARD_DRAG_HAPPENED:
+      const {
+        boardId,
+        droppableIdStart,
+        droppableIdEnd,
+        droppableIndexEnd,
+        droppableIndexStart,
+        draggableId
+      } = action.payload;
+
+      const newState = [...state];
+
+      if (droppableIdStart === droppableIdEnd) {
+        const list = state[boardId].lists.find((list: any) => +droppableIdStart === list.id);
+        const card = list.cards.splice(droppableIndexStart, 1);
+        list.cards.splice(droppableIndexEnd, 0, ...card);
+      }
+
+      return newState;
     case REMOVE_CARD:
       return state;
     case ADD_LIST:

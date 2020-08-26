@@ -1,5 +1,6 @@
 export const CREATE_BOARD = 'CREATE_BOARD';
 export const REMOVE_BOARD = 'REMOVE_BOARD';
+export const CARD_DRAG_HAPPENED = 'CARD_DRAG_HAPPENED';
 export const ADD_CARD = 'ADD_CARD';
 export const REMOVE_CARD = 'REMOVE_CARD';
 export const ADD_LIST = 'ADD_LIST';
@@ -39,6 +40,22 @@ interface removeBoardAction {
 export type boardActionTypes = createBoardAction | removeBoardAction;
 
 // Card
+
+export interface IDrag {
+  boardId: any,
+  droppableIdStart: any
+  droppableIdEnd: any
+  droppableIndexStart: any
+  droppableIndexEnd: any
+  draggableId: any
+}
+
+interface cardDragHappened {
+  type: typeof CARD_DRAG_HAPPENED,
+  payload: IDrag
+}
+
+export type dragActionTypes = cardDragHappened;
 
 export interface ICard {
   id: string
@@ -85,4 +102,5 @@ export type stateActionTypes =
   | addCardAction
   | removeCardAction
   | addListAction
-  | removeListAction;
+  | removeListAction
+  | cardDragHappened;
