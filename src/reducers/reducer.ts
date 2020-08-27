@@ -65,6 +65,14 @@ export const reducer: Reducer = (state = initialState, action: stateActionTypes)
         list.cards.splice(droppableIndexEnd, 0, ...card);
       }
 
+      if (droppableIdStart !== droppableIdEnd) {
+        const oldList = state[boardId].lists.find((list: any) => +droppableIdStart === list.id);
+        const card = oldList.cards.splice(droppableIndexStart, 1);
+
+        const list = state[boardId].lists.find((list: any) => +droppableIdEnd === list.id);
+        list.cards.splice(droppableIndexEnd, 0, ...card);
+      }
+
       return newState;
     case REMOVE_CARD:
       return state;

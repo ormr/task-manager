@@ -7,7 +7,7 @@ export const addCardItem = ({ id, listId, boardId, text }: ICard) =>
     dispatch({
       type: ADD_CARD,
       payload: {
-        id: `${id}-${listId}`,
+        id: `${id}-${listId}-${boardId}`,
         listId: listId,
         boardId: boardId,
         text: text

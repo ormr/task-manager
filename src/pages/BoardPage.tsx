@@ -76,7 +76,7 @@ return (
         </svg>
       </Link>
       {reducer[boardId].lists.map(({ id, title }: any, index: number) => (
-        <List key={index} listId={index} boardId={boardId} title={title} />
+        <List key={id} listId={index} boardId={boardId} title={title} />
       ))}
       <AddList boardId={boardId} />
     </div>
