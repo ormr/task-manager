@@ -1,20 +1,21 @@
 import { Dispatch } from 'redux';
+import { v4 as uuidv4 } from 'uuid';
 import { ADD_LIST, REMOVE_LIST, listActionTypes } from './constants';
 
 interface Props {
   boardId: number
-  id: number
   title: string
 }
 
-export const addList = ({ boardId, id, title }: Props) => 
+export const addList = ({ boardId, title }: Props) => 
   (dispatch: Dispatch<listActionTypes>) => {
     dispatch({
       type: ADD_LIST,
       payload: {
         boardId,
-        id,
-        title
+        id: uuidv4(),
+        title,
+        cards: []
       }
     });
 }

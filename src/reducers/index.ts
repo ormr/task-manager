@@ -1,8 +1,13 @@
 import { combineReducers } from 'redux';
-import { reducer } from './reducer';
+import { boardReducer } from './boardsReducer';
+import { listReducer } from './listsReducer';
+import { cardReducer } from './cardsReducer'
+
 
 const rootReducer = combineReducers({
-  reducer
+  boards: boardReducer,
+  cards: cardReducer,
+  lists: listReducer
 });
 
 export {

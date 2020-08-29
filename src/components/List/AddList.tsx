@@ -1,29 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
-import { addList } from '../../actions/list';
+import { IBoard } from '../../actions/constants';
+import { addList } from '../../actions/listsActions';
 import "./index.css";
 
 interface Props {
   boardId: number
-  reducer: any
-  addList: (props: { boardId: number, id: number, title: string }) => void
+  boards: IBoard[]
+  addList: (props: { boardId: number, title: string }) => void
 }
 
-const AddListView: React.FC<Props> = ({ boardId, reducer, addList }: Props) => {
-  const id: number = reducer[boardId].lists.length;
+const AddListView: React.FC<Props> = ({ boardId, boards, addList }: Props) => {
   const [title, setTitle] = React.useState('');
   const [form, setForm] = React.useState(false);
-
-  const onAddList = (boardId: number, id: any, title: any) => {
-    if (title) {
-      addList({ boardId, id, title });
-    }
-  };
 
   const showInput = () => {
     if (form) {
       if (title) {
-        addList({ boardId, id, title });
+        addList({ boardId, title });
         setTitle('');
       }
     } else {
@@ -66,9 +60,9 @@ const AddListView: React.FC<Props> = ({ boardId, reducer, addList }: Props) => {
   );
 };
 
-const mapStateToProps = ({ reducer }: any) => {
+const mapStateToProps = ({ boards }: any) => {
   return {
-    reducer
+    boards
   };
 }
 

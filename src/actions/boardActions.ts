@@ -1,19 +1,20 @@
 import { Dispatch } from 'redux';
 import { CREATE_BOARD, REMOVE_BOARD, boardActionTypes } from './constants';
 
-interface Props {
-  id: string
+interface CreateBoardProps {
+  id: number
   title: string
 }
 
-export const createBoard = ({ id, title }: Props) => 
+export const createBoard = ({ id, title }: CreateBoardProps) => 
   (dispatch: Dispatch<boardActionTypes>) => {
     if (title) {
       dispatch({
         type: CREATE_BOARD,
         payload: {
           id,
-          title
+          title,
+          lists: []
         }
       });
     }

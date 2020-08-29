@@ -1,15 +1,23 @@
 import { Dispatch } from 'redux';
-import { ICard, ADD_CARD, REMOVE_CARD, cardActionTypes, IDrag, CARD_DRAG_HAPPENED, dragActionTypes } from './constants';
+import { v4 as uuidv4 } from 'uuid';
+import {
+  ICard,
+  ADD_CARD,
+  REMOVE_CARD,
+  cardActionTypes,
+  IDrag,
+  DRAG_HAPPENED,
+  dragActionTypes
+} from './constants';
 
 
-export const addCardItem = ({ id, listId, boardId, text }: ICard) => 
+export const addCardItem = ({ listId, text }: ICard) => 
   (dispatch: Dispatch<cardActionTypes>) => {
     dispatch({
       type: ADD_CARD,
       payload: {
-        id: `${id}-${listId}-${boardId}`,
+        id: uuidv4(),
         listId: listId,
-        boardId: boardId,
         text: text
       }
     });
@@ -21,17 +29,19 @@ export const moveCardItem = ({
   droppableIdEnd,
   droppableIndexStart,
   droppableIndexEnd,
-  draggableId
+  draggableId,
+  type
 }: IDrag) => (dispatch: Dispatch<dragActionTypes>) =>{
   dispatch({
-    type: CARD_DRAG_HAPPENED,
+    type: DRAG_HAPPENED,
     payload: {
       boardId,
       droppableIdStart,
       droppableIdEnd,
       droppableIndexStart,
       droppableIndexEnd,
-      draggableId
+      draggableId,
+      type
     }
   })
 }

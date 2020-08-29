@@ -2,15 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import './BoardsPage.css'
 
+import { IState, IBoard } from '../actions/constants'
 import { BoardLink } from '../components/Board';
 import { AddBoard } from '../components/Board/AddBoard';
 
-const BoardsPageView: React.FC = ({reducer}: any): JSX.Element => {
+interface Props {
+  boards: IBoard[]
+}
+
+const BoardsPageView: React.FC<Props> = ({ boards }: Props): JSX.Element => {
   return (
     <div className="boards">
       {
-        reducer.map(({ title }: any, index: number) => (
-          <BoardLink key={index} id={index} title={title} />
+        boards.map(({ id, title }: IBoard) => (
+          <BoardLink key={id} id={id} title={title} />
         ))
       }
         <AddBoard />
@@ -18,9 +23,9 @@ const BoardsPageView: React.FC = ({reducer}: any): JSX.Element => {
   );
 };
 
-const mapStateToProps = ({ reducer }: any) => {
+const mapStateToProps = ({ boards }: IState) => {
   return {
-    reducer
+    boards
   };
 }
 

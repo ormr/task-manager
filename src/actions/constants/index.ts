@@ -1,6 +1,6 @@
 export const CREATE_BOARD = 'CREATE_BOARD';
 export const REMOVE_BOARD = 'REMOVE_BOARD';
-export const CARD_DRAG_HAPPENED = 'CARD_DRAG_HAPPENED';
+export const DRAG_HAPPENED = 'DRAG_HAPPENED';
 export const ADD_CARD = 'ADD_CARD';
 export const REMOVE_CARD = 'REMOVE_CARD';
 export const ADD_LIST = 'ADD_LIST';
@@ -8,24 +8,41 @@ export const REMOVE_LIST = 'REMOVE_LIST';
 
 
 export interface IState {
-  id: number
-  title: string
-  lists: {
-    id: number
-    title: string
-    cards: {
-      id: number
-      text: string
-    }[]
-  }[]
-};
-
-// Board
+  boards: IBoard[]
+  lists: IList[]
+  cards: ICard[]
+}
 
 export interface IBoard {
-  id?: string
+  id: number
   title: string
+  lists: string[]
 }
+
+export interface IList {
+  boardId: number
+  id: string
+  title: string
+  cards: string[]
+};
+
+export interface ICard {
+  id: string
+  listId: string
+  text: string
+}
+
+export interface IDrag {
+  boardId: number
+  droppableIdStart: string
+  droppableIdEnd: string
+  droppableIndexStart: number
+  droppableIndexEnd: number
+  draggableId: string
+  type: string
+}
+
+// Board
 
 interface createBoardAction {
   type: typeof CREATE_BOARD
@@ -37,32 +54,40 @@ interface removeBoardAction {
   payload?: IBoard
 };
 
-export type boardActionTypes = createBoardAction | removeBoardAction;
+export type boardActionTypes =
+  | createBoardAction
+  | removeBoardAction
+  | addListAction
+  | dragHappened;
 
-// Card
+// List
 
-export interface IDrag {
-  boardId: any,
-  droppableIdStart: any
-  droppableIdEnd: any
-  droppableIndexStart: any
-  droppableIndexEnd: any
-  draggableId: any
-}
+interface addListAction {
+  type: typeof ADD_LIST
+  payload: IList
+};
 
-interface cardDragHappened {
-  type: typeof CARD_DRAG_HAPPENED,
+interface removeListAction {
+  type: typeof REMOVE_LIST
+  payload?: IList
+};
+
+export type listActionTypes =
+  | addListAction
+  | removeListAction
+  | addCardAction
+  | dragActionTypes;
+
+// Drag
+
+interface dragHappened {
+  type: typeof DRAG_HAPPENED,
   payload: IDrag
 }
 
-export type dragActionTypes = cardDragHappened;
+export type dragActionTypes = dragHappened;
 
-export interface ICard {
-  id: string
-  listId: number
-  boardId: number
-  text: string
-}
+// Card
 
 interface addCardAction {
   type: typeof ADD_CARD
@@ -75,32 +100,3 @@ interface removeCardAction {
 };
 
 export type cardActionTypes = addCardAction | removeCardAction;
-
-// List
-
-export interface IList {
-  boardId: number
-  id: number
-  title: string
-};
-
-interface addListAction {
-  type: typeof ADD_LIST
-  payload: IList
-};
-
-interface removeListAction {
-  type: typeof REMOVE_LIST
-  payload?: IList
-};
-
-export type listActionTypes = addListAction | removeListAction;
-
-export type stateActionTypes =
-  | createBoardAction
-  | removeBoardAction
-  | addCardAction
-  | removeCardAction
-  | addListAction
-  | removeListAction
-  | cardDragHappened;

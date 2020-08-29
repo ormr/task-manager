@@ -1,18 +1,18 @@
 import React from 'react';
+import { IState } from '../../actions/constants';
 import { connect } from 'react-redux';
-import { createBoard } from '../../actions/board';
+import { createBoard } from '../../actions/boardActions';
 
 interface Props {
-  reducer: any,
+  boards: any,
   createBoard: (props: any) => any
 }
 
-const AddBoardView: React.FC<Props> = ({ reducer, createBoard }: Props) => {
-  const id = reducer.length;
+const AddBoardView: React.FC<Props> = ({ boards, createBoard }: Props) => {
   const [title, setTitle] = React.useState('');
   const [form, setForm] = React.useState(false);
 
-  const onCreateBoard = (id: any, title: any) => {
+  const onCreateBoard = (id: number, title: string) => {
     createBoard({id, title});
     setTitle('');
   }
@@ -20,6 +20,7 @@ const AddBoardView: React.FC<Props> = ({ reducer, createBoard }: Props) => {
   const showInput = () => {
     if (form) {
       if (title) {
+        const id = boards.length;
         onCreateBoard(id, title);
         setTitle('');
       }
@@ -48,9 +49,9 @@ const AddBoardView: React.FC<Props> = ({ reducer, createBoard }: Props) => {
   );
 }
 
-const mapStateToProps = ({reducer}: any) => {
+const mapStateToProps = ({ boards }: IState) => {
   return {
-    reducer
+    boards
   };
 }
 

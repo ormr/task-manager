@@ -3,13 +3,12 @@ import { Draggable } from 'react-beautiful-dnd';
 import './index.css';
 
 interface Props {
-  boardId: number
   id: string
   index: number
   text: string
 }
 
-export const Card: React.FC<Props> = ({ boardId, id, text, index }: Props): JSX.Element => {
+export const Card: React.FC<Props> = ({ id, text, index }: Props): JSX.Element => {
   return (
     <Draggable draggableId={id} index={index}>
       {

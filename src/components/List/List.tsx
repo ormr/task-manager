@@ -1,47 +1,52 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Droppable } from 'react-beautiful-dnd';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 import './index.css';
 
+import { ICard } from '../../actions/constants';
 import { Card } from '../Card';
 import { AddCard } from '../Card/AddCard';
 
 interface Props {
-  boardId: number
-  listId: number
+  cards: ICard[]
+  listId: string
   title: string
-  reducer: any
+  index: number
 }
 
-export const ListView: React.FC<Props> = ({boardId, listId, title, reducer }: Props): JSX.Element => {
+export const List: React.FC<Props> = ({
+  cards,
+  listId,
+  title,
+  index
+}: Props): JSX.Element => {
   return (
-    <Droppable droppableId={String(listId)}>
-    {
-      (provided) => (
-        <div ref={provided.innerRef} {...provided.droppableProps} className="list-item">
-          <h3>{title}</h3>
-          <div className="list-item-inner">
-            {
-              reducer[boardId].lists[listId].cards.map(
-                ({ id, text }: any, index: number) => (
-                  <Card key={id} boardId={boardId} id={id} index={index} text={text} />
-                )
-              )
-            }
-          </div>
-          <AddCard listId={listId} boardId={boardId} />
-          {provided.placeholder}
+    <Draggable draggableId={String(listId)} index={index}>
+      {(provided) => (
+        <div
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
+          <Droppable droppableId={String(listId)}>
+            {(provided) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className="list-item"
+              >
+                <h3>{title}</h3>
+                <div className="list-item-inner">
+                  {cards.map(({ id, listId, text }: ICard, index: number) => {
+                    return <Card key={id} id={id} index={index} text={text} />;
+                  })}
+                </div>
+                {provided.placeholder}
+                <AddCard listId={listId} />
+              </div>
+            )}
+          </Droppable>
         </div>
-      )
-    }
-    </Droppable>
+      )}
+    </Draggable>
   );
 };
-
-const mapStateToProps = ({ reducer }: any) => {
-  return {
-    reducer
-  }
-}
-
-export const List = connect(mapStateToProps)(ListView);

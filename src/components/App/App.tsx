@@ -21,7 +21,7 @@ const App: React.FC = (): JSX.Element => {
             <Route path="/board/:id" render={({ match }) => {
               const { id } = match.params;
 
-              return <BoardPage id={id} />
+              return <BoardPage boardId={Number(id)} />
             }} />
             <Route component={ErrorPage} />
           </Switch>

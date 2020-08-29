@@ -1,27 +1,25 @@
 import React from 'react';
 import './index.css'
 
+import { ICard } from '../../actions/constants';
 import { connect } from 'react-redux';
-import { addCardItem } from '../../actions/card';
+import { addCardItem } from '../../actions/cardsActions';
 
 interface Props {
-  listId: number
-  boardId: number
-  reducer: any
+  listId: string
+  cards: ICard[]
   addCardItem: (props: any) => any
 }
 
 
-const AddCardView: React.FC<Props> = ({ boardId, listId, reducer, addCardItem }: Props) => {
+const AddCardView: React.FC<Props> = ({ listId, cards, addCardItem }: Props) => {
   const [text, setText] = React.useState('');
   const [form, setForm] = React.useState(false);
-
-  const id = reducer[boardId].lists[listId].cards.length;
 
   const showInput = () => {
     if (form) {
       if (text) {
-        onAddCard(id, boardId, listId, text);
+        onAddCard(listId, text);
         setText('');
       }
     } else {
@@ -29,10 +27,8 @@ const AddCardView: React.FC<Props> = ({ boardId, listId, reducer, addCardItem }:
     }
   }
 
-  const onAddCard = (id: number, boardId: number, listId: number, text: string) => {
+  const onAddCard = (listId: string, text: string) => {
       addCardItem({
-        id,
-        boardId,
         listId,
         text
       });
@@ -57,9 +53,9 @@ const AddCardView: React.FC<Props> = ({ boardId, listId, reducer, addCardItem }:
   );
 }
 
-const mapStateToProps = ({reducer}: any) => {
+const mapStateToProps = ({cards}: any) => {
   return {
-    reducer
+    cards
   };
 }
 
