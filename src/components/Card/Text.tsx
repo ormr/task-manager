@@ -32,7 +32,7 @@ export const TextView: React.FC<Props> = ({ cardId, children, editCardItem }: Pr
   }
 
   return (
-    <div className={isEditing ? "text active" : "text"}>
+    <div onClick={() => !isEditing ? editText() : null} className={isEditing ? "text active" : "text"}>
       {
         isEditing ?
         <input
@@ -46,7 +46,7 @@ export const TextView: React.FC<Props> = ({ cardId, children, editCardItem }: Pr
           type="text"
         />
         :
-        <div onClick={editText} className="text-inner">{children}</div>}
+        <div className="text-inner">{children}</div>}
     </div>
   );
 }

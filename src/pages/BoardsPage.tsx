@@ -4,7 +4,7 @@ import './BoardsPage.css'
 
 import { IState, IBoard } from '../actions/constants'
 import { BoardLink } from '../components/Board';
-import { AddBoard } from '../components/Board/AddBoard';
+import { AddItem } from '../components/AddItem';
 
 interface Props {
   boards: IBoard[]
@@ -18,7 +18,7 @@ const BoardsPageView: React.FC<Props> = ({ boards }: Props): JSX.Element => {
           <BoardLink key={id} id={id} title={title} />
         ))
       }
-        <AddBoard />
+        <AddItem item="board" />
     </div>
   );
 };

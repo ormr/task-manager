@@ -10,7 +10,6 @@ interface Props {
 }
 
 const TitleView: React.FC<Props> = ({ listId, children, editListTitle }: Props) => {
-  console.log(listId)
   const [title, setTitle] = React.useState(children);
   const [isEditing, setEditing] = React.useState(false);
   

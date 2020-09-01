@@ -4,6 +4,7 @@ import './index.css'
 import { ICard } from '../../actions/constants';
 import { connect } from 'react-redux';
 import { addCardItem } from '../../actions/cardsActions';
+import { useOutsideClick } from '../../assets/custom-hooks/useOutsideClick'
 
 interface Props {
   listId: string
@@ -14,16 +15,22 @@ interface Props {
 
 const AddCardView: React.FC<Props> = ({ listId, cards, addCardItem }: Props) => {
   const [text, setText] = React.useState('');
-  const [form, setForm] = React.useState(false);
+  const [show, setShow] = React.useState(false);
+
+  const divRef: any = React.useRef();
+
+  useOutsideClick(divRef, () => {
+    if (show) setShow(false);
+  })
 
   const showInput = () => {
-    if (form) {
+    if (show) {
       if (text) {
         onAddCard(listId, text);
         setText('');
       }
     } else {
-      setForm(!form);
+      setShow(!show);
     }
   }
 
@@ -33,11 +40,19 @@ const AddCardView: React.FC<Props> = ({ listId, cards, addCardItem }: Props) => 
         text
       });
   }
+
+  const onKeyPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onAddCard(listId, text);
+      setText('');
+    }
+  }
+
   return (
-    <div className="add-card-item">
+    <div className="add-card-item" ref={divRef}>
     {
-     form ?
-      <input type="text" value={text} placeholder="Card text" onChange={(e) => setText(e.target.value)}/>
+     show ?
+      <input type="text" onKeyDown={onKeyPressed} value={text} placeholder="Card text" onChange={(e) => setText(e.target.value)}/>
      : null
     }
       <button className="add-card-button" onClick={showInput}>

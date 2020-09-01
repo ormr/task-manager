@@ -2,14 +2,20 @@ import React from 'react';
 import { IState } from '../../actions/constants';
 import { connect } from 'react-redux';
 import { createBoard } from '../../actions/boardActions';
+import { addList } from '../../actions/listsActions';
 import { useOutsideClick } from '../../assets/custom-hooks/useOutsideClick';
 
+import './AddItem.css';
+
 interface Props {
+  boardId?: number
+  item: any,
   boards: any,
   createBoard: (props: any) => any
+  addList: (props: any) => any
 }
 
-const AddBoardView: React.FC<Props> = ({ boards, createBoard }: Props) => {
+const AddItemView: React.FC<Props> = ({ boardId, item, boards, createBoard, addList }: Props) => {
   const [title, setTitle] = React.useState('');
   const [show, setShow] = React.useState(false);
 
@@ -19,8 +25,13 @@ const AddBoardView: React.FC<Props> = ({ boards, createBoard }: Props) => {
     if (show) setShow(false);
   })
 
-  const onCreateBoard = (id: number, title: string) => {
-    createBoard({id, title});
+  const onCreateItem = (id: number, title: string) => {
+    if (item === 'board') {
+      createBoard({id, title});
+    }
+    if (item === 'list') {
+      addList({ boardId, title });
+    }
     setTitle('');
   }
 
@@ -31,7 +42,7 @@ const AddBoardView: React.FC<Props> = ({ boards, createBoard }: Props) => {
   const onSubmitPressed = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (title) {
       const id = boards.length;
-      onCreateBoard(id, title);
+      onCreateItem(id, title);
       setShow(!show)
     }
   }
@@ -39,30 +50,30 @@ const AddBoardView: React.FC<Props> = ({ boards, createBoard }: Props) => {
   const onKeyPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const id = boards.length;
-      onCreateBoard(id, title);
+      onCreateItem(id, title);
     }
   }
 
   if (!show) {
     return (
-      <button className="add-board-hidden" onClick={showInput}>
-        Add another board
+      <button className="add-item-hidden" onClick={showInput}>
+        Add another {item}
       </button>
     );
   }
 
   return (
-  <div ref={divRef} className="add-board-item">
+  <div ref={divRef} className="add-item">
     <input
       type="text"
       value={title}
       autoFocus
-      placeholder="Board title"
+      placeholder={item.slice(0, 1).toUpperCase() + item.slice(1) + " title"}
       onKeyDown={onKeyPressed}
       onChange={(e) => setTitle(e.target.value)}
     />
-    <button className="add-card-button" onClick={onSubmitPressed}>
-      Add another board
+    <button className="add-item-button" onClick={onSubmitPressed}>
+      Add another {item}
     </button>
   </div>
 );
@@ -74,4 +85,4 @@ const mapStateToProps = ({ boards }: IState) => {
   };
 }
 
-export const AddBoard = connect(mapStateToProps, { createBoard })(AddBoardView);
+export const AddItem = connect(mapStateToProps, { createBoard, addList })(AddItemView);
