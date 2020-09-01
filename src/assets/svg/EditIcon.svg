@@ -1,0 +1,21 @@
+<svg
+  width="15"
+  height="15"
+  viewBox="0 0 11 11"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <circle cx="2" cy="8" r="2" fill="white" />
+  <rect
+    x="8.26776"
+    y="0.110901"
+    width="3"
+    height="8.22556"
+    transform="rotate(45 8.26776 0.110901)"
+    fill="#C4C4C4"
+  />
+  <path
+    d="M1.2179 9.2801L2.45978 5.92868L4.56932 8.03823L1.2179 9.2801Z"
+    fill="#C4C4C4"
+  />
+</svg>

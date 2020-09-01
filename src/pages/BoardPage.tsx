@@ -83,7 +83,8 @@ const BoardPageView: React.FC<Props> = ({ boardId, boards, lists, cards, moveCar
                 const list = lists.find((list: IList) => list.id === id);
 
                 if (list) {
-                  const listsCards: any = list.cards.map(
+                  if (list.cards === undefined) return null;
+                  const listsCards = list.cards.map(
                     (listCard: string) => {
                       return cards.find((item: ICard) => listCard === item.id);
                     });

@@ -2,9 +2,11 @@ export const CREATE_BOARD = 'CREATE_BOARD';
 export const REMOVE_BOARD = 'REMOVE_BOARD';
 export const DRAG_HAPPENED = 'DRAG_HAPPENED';
 export const ADD_CARD = 'ADD_CARD';
+export const EDIT_CARD_TEXT = 'EDIT_CARD_TEXT';
 export const REMOVE_CARD = 'REMOVE_CARD';
 export const ADD_LIST = 'ADD_LIST';
 export const REMOVE_LIST = 'REMOVE_LIST';
+export const EDIT_LIST_TITLE = 'EDIT_LIST_TITLE';
 
 
 export interface IState {
@@ -20,10 +22,10 @@ export interface IBoard {
 }
 
 export interface IList {
-  boardId: number
+  boardId?: number
   id: string
   title: string
-  cards: string[]
+  cards?: string[]
 };
 
 export interface ICard {
@@ -72,10 +74,16 @@ interface removeListAction {
   payload?: IList
 };
 
+interface editListTitleAction {
+  type: typeof EDIT_LIST_TITLE
+  payload?: IList
+}
+
 export type listActionTypes =
   | addListAction
   | removeListAction
   | addCardAction
+  | editListTitleAction
   | dragActionTypes;
 
 // Drag
@@ -94,9 +102,17 @@ interface addCardAction {
   payload: ICard
 };
 
+interface editCardAction {
+  type: typeof EDIT_CARD_TEXT
+  payload: {
+    id: string
+    text: string
+  }
+}
+
 interface removeCardAction {
   type: typeof REMOVE_CARD
   payload?: ICard
 };
 
-export type cardActionTypes = addCardAction | removeCardAction;
+export type cardActionTypes = addCardAction | removeCardAction | editCardAction;

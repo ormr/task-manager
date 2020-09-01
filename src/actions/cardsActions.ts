@@ -4,6 +4,7 @@ import {
   ICard,
   ADD_CARD,
   REMOVE_CARD,
+  EDIT_CARD_TEXT,
   cardActionTypes,
   IDrag,
   DRAG_HAPPENED,
@@ -45,6 +46,23 @@ export const moveCardItem = ({
     }
   })
 }
+
+interface editCardItemProps {
+  id: string
+  text: string
+}
+
+export const editCardItem = ({ id, text }: editCardItemProps) => 
+  (dispatch: Dispatch<cardActionTypes>) => {
+  console.log(id);
+  dispatch({
+    type: EDIT_CARD_TEXT,
+    payload: {
+      id,
+      text
+    }
+  });
+};
 
 export const removeCardItem = () => 
   (dispatch: Dispatch<cardActionTypes>) => {

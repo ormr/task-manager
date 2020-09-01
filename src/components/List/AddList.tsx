@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { IBoard } from '../../actions/constants';
+import { IState, IBoard } from '../../actions/constants';
 import { addList } from '../../actions/listsActions';
 import "./index.css";
 
@@ -29,6 +29,7 @@ const AddListView: React.FC<Props> = ({ boardId, boards, addList }: Props) => {
     <div className="add-list-item">
       {form ? (
         <input
+          
           type="text"
           value={title}
           placeholder="List title"
@@ -36,31 +37,13 @@ const AddListView: React.FC<Props> = ({ boardId, boards, addList }: Props) => {
         />
       ) : null}
       <button className="add-list-button" onClick={showInput}>
-        <span className="add-list--icon">
-          <svg
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect x="4" width="2" height="10" fill="#A9ACBF" />
-            <rect
-              y="6"
-              width="2"
-              height="10"
-              transform="rotate(-90 0 6)"
-              fill="#A9ACBF"
-            />
-          </svg>
-        </span>
         Add another list
       </button>
     </div>
   );
 };
 
-const mapStateToProps = ({ boards }: any) => {
+const mapStateToProps = ({ boards }: IState) => {
   return {
     boards
   };

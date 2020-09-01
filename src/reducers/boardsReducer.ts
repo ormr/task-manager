@@ -1,6 +1,7 @@
 import { Reducer } from 'redux';
 import {
   IBoard,
+  IList,
   DRAG_HAPPENED,
   CREATE_BOARD,
   ADD_LIST,
@@ -25,7 +26,8 @@ export const boardReducer: Reducer = (state = initialState, action: boardActionT
       return [...state, { id: boardId, title: boardTitle, lists: boardLists }];
     }
     case ADD_LIST: {
-      const { boardId, id } = action.payload;
+      const { boardId, id }: IList = action.payload;
+      if (boardId === undefined) return state;
       const board = state.find((board: IBoard) => board.id === boardId);
       const newLists = [...board.lists, id];
       board.lists = newLists;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
+import { Text } from './Text';
 import './index.css';
 
 interface Props {
@@ -19,10 +20,10 @@ export const Card: React.FC<Props> = ({ id, text, index }: Props): JSX.Element =
             {...provided.dragHandleProps}
             className="card"
           >
-            { text }
+            <Text cardId={id}>{ text }</Text>
           </div>
         )
       }
     </Draggable>
-    );
+  );
 }

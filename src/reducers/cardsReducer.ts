@@ -3,6 +3,7 @@ import {
   ICard,
   ADD_CARD,
   REMOVE_CARD,
+  EDIT_CARD_TEXT,
   cardActionTypes } from '../actions/constants';
 
 const initialState: ICard[] = [
@@ -34,6 +35,15 @@ export const cardReducer: Reducer = (state = initialState, action: cardActionTyp
       };
 
       return [...state, card];
+    }
+    case EDIT_CARD_TEXT: {
+      const { id, text } = action.payload;
+      const card = state.find((card: ICard) => card.id === id);
+      const cardIndex = state.find((card: ICard) => card.id === id);
+
+      card.text = text;
+
+      return [...state.slice(0, cardIndex), card, ...state.slice(cardIndex + 1)];
     }
     case REMOVE_CARD:
       return state;

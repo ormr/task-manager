@@ -30,6 +30,14 @@
   height: 40px;
 }
 
-.add-board-item button:hover {
+.add-board-hidden {
+  cursor: pointer;
+  border: 0;
+  border-radius: 5px;
+  min-height: 75px;
+  padding: 0 10px;
+}
+
+.add-board-hidden:hover {
   background-color: #d7d7f0;
 }

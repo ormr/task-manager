@@ -2,6 +2,7 @@ import React from 'react';
 import { IState } from '../../actions/constants';
 import { connect } from 'react-redux';
 import { createBoard } from '../../actions/boardActions';
+import { useOutsideClick } from '../../assets/custom-hooks/useOutsideClick';
 
 interface Props {
   boards: any,
@@ -10,43 +11,61 @@ interface Props {
 
 const AddBoardView: React.FC<Props> = ({ boards, createBoard }: Props) => {
   const [title, setTitle] = React.useState('');
-  const [form, setForm] = React.useState(false);
+  const [show, setShow] = React.useState(false);
+
+  const divRef: any = React.useRef();
+
+  useOutsideClick(divRef, () => {
+    if (show) setShow(false);
+  })
 
   const onCreateBoard = (id: number, title: string) => {
     createBoard({id, title});
     setTitle('');
   }
 
-  const showInput = () => {
-    if (form) {
-      if (title) {
-        const id = boards.length;
-        onCreateBoard(id, title);
-        setTitle('');
-      }
-    } else {
-      setForm(!form);
+  const showInput = async () => {
+    await setShow(!show);
+  }
+
+  const onSubmitPressed = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (title) {
+      const id = boards.length;
+      onCreateBoard(id, title);
+      setShow(!show)
     }
   }
 
-  return (
-    <div className="add-board-item">
-    {
-     form ?
-      <input type="text" value={title} placeholder="Board title" onChange={(e) => setTitle(e.target.value)}/>
-     : null
+  const onKeyPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      const id = boards.length;
+      onCreateBoard(id, title);
     }
-      <button className="add-card-button" onClick={showInput}>
-        <span className="add-card--icon">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" width="2" height="10" fill="#A9ACBF"/>
-          <rect y="6" width="2" height="10" transform="rotate(-90 0 6)" fill="#A9ACBF"/>
-        </svg>
-        </span>
+  }
+
+  if (!show) {
+    return (
+      <button className="add-board-hidden" onClick={showInput}>
         Add another board
       </button>
-    </div>
-  );
+    );
+  }
+
+  return (
+  <div ref={divRef} className="add-board-item">
+    <input
+      type="text"
+      value={title}
+      autoFocus
+      placeholder="Board title"
+      onKeyDown={onKeyPressed}
+      onChange={(e) => setTitle(e.target.value)}
+    />
+    <button className="add-card-button" onClick={onSubmitPressed}>
+      Add another board
+    </button>
+  </div>
+);
 }
 
 const mapStateToProps = ({ boards }: IState) => {

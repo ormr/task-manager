@@ -1,4 +1,5 @@
 import React from 'react';
+import { Title } from './Title';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import './index.css';
 
@@ -7,7 +8,7 @@ import { Card } from '../Card';
 import { AddCard } from '../Card/AddCard';
 
 interface Props {
-  cards: ICard[]
+  cards: (ICard | undefined)[]
   listId: string
   title: string
   index: number
@@ -34,10 +35,15 @@ export const List: React.FC<Props> = ({
                 {...provided.droppableProps}
                 className="list-item"
               >
-                <h3>{title}</h3>
+                <Title listId={listId}>{title}</Title>
                 <div className="list-item-inner">
-                  {cards.map(({ id, listId, text }: ICard, index: number) => {
-                    return <Card key={id} id={id} index={index} text={text} />;
+                  {cards.map((card: (ICard | undefined), index: number) => {
+                    if (!card) {
+                      return null;
+                    } else {
+                      const { id, text } = card;
+                      return <Card key={id} id={id} index={index} text={text} />;
+                    }
                   })}
                 </div>
                 {provided.placeholder}

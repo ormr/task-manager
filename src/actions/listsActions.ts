@@ -1,13 +1,13 @@
 import { Dispatch } from 'redux';
 import { v4 as uuidv4 } from 'uuid';
-import { ADD_LIST, REMOVE_LIST, listActionTypes } from './constants';
+import { ADD_LIST, EDIT_LIST_TITLE, REMOVE_LIST, listActionTypes } from './constants';
 
-interface Props {
+interface addListProps {
   boardId: number
   title: string
 }
 
-export const addList = ({ boardId, title }: Props) => 
+export const addList = ({ boardId, title }: addListProps) => 
   (dispatch: Dispatch<listActionTypes>) => {
     dispatch({
       type: ADD_LIST,
@@ -19,6 +19,22 @@ export const addList = ({ boardId, title }: Props) =>
       }
     });
 }
+
+interface editTitleProps {
+  listId: string
+  title: string
+}
+
+export const editListTitle = ({ listId, title }: editTitleProps) => 
+  (dispatch: Dispatch<listActionTypes>) => {
+    dispatch({
+      type: EDIT_LIST_TITLE,
+      payload: {
+        id: listId,
+        title
+      }
+    })
+  }
 
 export const removeList = () => 
   (dispatch: Dispatch<listActionTypes>) => {
