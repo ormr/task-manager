@@ -1,43 +1,79 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './index.css';
-import { editListTitle } from '../../actions/listsActions'
+import {
+  editListTitle,
+  editTitleProps,
+  removeList,
+  removeListProps,
+} from '../../actions/listsActions';
 
 interface Props {
-  listId: string
-  children: React.ReactNode
-  editListTitle: (props: any) => any
+  boardId: string;
+  listId: string;
+  children: React.ReactNode;
+  editListTitle: (props: editTitleProps) => void;
+  removeList: (props: removeListProps) => void;
 }
 
-const TitleView: React.FC<Props> = ({ listId, children, editListTitle }: Props) => {
-  const [title, setTitle] = React.useState(children);
-  const [isEditing, setEditing] = React.useState(false);
-  
+const TitleView: React.FC<Props> = ({
+  boardId,
+  listId,
+  children,
+  editListTitle,
+  removeList,
+}: Props) => {
+  const [title, setTitle] = React.useState<string>(String(children));
+  const [isEditing, setEditing] = React.useState<boolean>(false);
+
   const editTitle = () => {
     setEditing(!isEditing);
-  }
+  };
 
   const setNewTitle = () => {
     if (title) {
-      editListTitle({ listId, title });
-      editTitle();
+      editListTitle({ boardId, listId, name: title });
+      setEditing(!isEditing);
     }
-  }
+  };
 
   const onKeyPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       setNewTitle();
     }
-  }
+  };
+
+  const deleteList = () => {
+    removeList({ boardId, listId });
+  };
 
   return (
     <div className="title">
-      {
-      !isEditing ? 
-        <div className="title-inner" onClick={editTitle}>
-          <h3>{title}</h3>
+      {!isEditing ? (
+        <div className="title-inner">
+          <h3 onClick={editTitle}>{title}</h3>
+          <button className="delete-list--button" onClick={deleteList}>
+            <span className="delete-list--icon">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 10 10"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect x="4" width="2" height="10" fill="#A9ACBF" />
+                <rect
+                  y="6"
+                  width="2"
+                  height="10"
+                  transform="rotate(-90 0 6)"
+                  fill="#A9ACBF"
+                />
+              </svg>
+            </span>
+          </button>
         </div>
-        : 
+      ) : (
         <input
           maxLength={24}
           autoFocus
@@ -48,9 +84,9 @@ const TitleView: React.FC<Props> = ({ listId, children, editListTitle }: Props) 
           onKeyDown={(e) => onKeyPressed(e)}
           type="text"
         />
-      }
+      )}
     </div>
-    );
-}
+  );
+};
 
-export const Title = connect(null, { editListTitle })(TitleView);
+export const Title = connect(null, { editListTitle, removeList })(TitleView);

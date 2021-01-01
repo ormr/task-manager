@@ -1,7 +1,7 @@
 .list-item {
   position: relative;
   user-select: none;
-  background-color: #F2F5FC;
+  background-color: #f2f5fc;
   border-radius: 5px;
   padding: 15px 10px 70px;
   margin: 0px 15px;
@@ -15,14 +15,14 @@
 .add-list-item input {
   height: 53px;
   width: 100%;
-  border: 1px solid #7A8194;
+  border: 1px solid #7a8194;
   padding-left: 15px;
-  color: #7A8194;
+  color: #7a8194;
 }
 
 .add-list-item button {
   cursor: pointer;
-  color: #7A8194;
+  color: #7a8194;
   text-align: left;
   border: 0;
   background-color: #e0e0f0;
@@ -65,4 +65,14 @@
   align-items: center;
   padding: 0 5px;
   margin-bottom: 15px;
+}
+
+.delete-list--button {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.delete-list--icon svg {
+  transform: rotate(45deg);
 }

@@ -1,5 +1,4 @@
 import React from 'react';
-import { IState } from '../../actions/constants';
 import { connect } from 'react-redux';
 import { createBoard } from '../../actions/boardActions';
 import { addList } from '../../actions/listsActions';
@@ -8,51 +7,56 @@ import { useOutsideClick } from '../../assets/custom-hooks/useOutsideClick';
 import './AddItem.css';
 
 interface Props {
-  boardId?: number
-  item: any,
-  boards: any,
-  createBoard: (props: any) => any
-  addList: (props: any) => any
+  boardId?: string;
+  item: string;
+  createBoard: (props: { title: string }) => void;
+  addList: (props: { boardId: string; name: string }) => void;
 }
 
-const AddItemView: React.FC<Props> = ({ boardId, item, boards, createBoard, addList }: Props) => {
-  const [title, setTitle] = React.useState('');
+const AddItemView: React.FC<Props> = ({
+  boardId,
+  item,
+  createBoard,
+  addList,
+}: Props) => {
+  const [name, setName] = React.useState('');
   const [show, setShow] = React.useState(false);
 
   const divRef: any = React.useRef();
 
   useOutsideClick(divRef, () => {
     if (show) setShow(false);
-  })
+  });
 
-  const onCreateItem = (id: number, title: string) => {
+  const onCreateItem = (name: string) => {
     if (item === 'board') {
-      createBoard({id, title});
+      createBoard({ title: name });
     }
-    if (item === 'list') {
-      addList({ boardId, title });
+
+    if (item === 'list' && boardId) {
+      addList({ boardId, name });
     }
-    setTitle('');
-  }
+    setName('');
+  };
 
   const showInput = async () => {
     await setShow(!show);
-  }
+  };
 
-  const onSubmitPressed = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    if (title) {
-      const id = boards.length;
-      onCreateItem(id, title);
-      setShow(!show)
+  const onSubmitPressed = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    if (name) {
+      onCreateItem(name);
+      setShow(!show);
     }
-  }
+  };
 
   const onKeyPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      const id = boards.length;
-      onCreateItem(id, title);
+      onCreateItem(name);
     }
-  }
+  };
 
   if (!show) {
     return (
@@ -63,26 +67,20 @@ const AddItemView: React.FC<Props> = ({ boardId, item, boards, createBoard, addL
   }
 
   return (
-  <div ref={divRef} className="add-item">
-    <input
-      type="text"
-      value={title}
-      autoFocus
-      placeholder={item.slice(0, 1).toUpperCase() + item.slice(1) + " title"}
-      onKeyDown={onKeyPressed}
-      onChange={(e) => setTitle(e.target.value)}
-    />
-    <button className="add-item-button" onClick={onSubmitPressed}>
-      Add another {item}
-    </button>
-  </div>
-);
-}
+    <div ref={divRef} className="add-item">
+      <input
+        type="text"
+        value={name}
+        autoFocus
+        placeholder={item.slice(0, 1).toUpperCase() + item.slice(1) + ' name'}
+        onKeyDown={onKeyPressed}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <button className="add-item-button" onClick={onSubmitPressed}>
+        Add another {item}
+      </button>
+    </div>
+  );
+};
 
-const mapStateToProps = ({ boards }: IState) => {
-  return {
-    boards
-  };
-}
-
-export const AddItem = connect(mapStateToProps, { createBoard, addList })(AddItemView);
+export const AddItem = connect(null, { createBoard, addList })(AddItemView);

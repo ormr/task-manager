@@ -1,9 +1,9 @@
 import { Dispatch } from 'redux';
-import { v4 as uuidv4 } from 'uuid';
+import { api } from '../utils';
 import {
-  ICard,
   ADD_CARD,
   REMOVE_CARD,
+  CARD_ERROR,
   EDIT_CARD_TEXT,
   cardActionTypes,
   IDrag,
@@ -11,18 +11,32 @@ import {
   dragActionTypes
 } from './constants';
 
-
-export const addCardItem = ({ listId, text }: ICard) => 
-  (dispatch: Dispatch<cardActionTypes>) => {
-    dispatch({
-      type: ADD_CARD,
-      payload: {
-        id: uuidv4(),
-        listId: listId,
-        text: text
-      }
-    });
+interface AddCardProps {
+  boardId: string;
+  listId: string;
+  text: string;
 }
+
+
+export const addCardItem = ({ boardId, listId, text }: AddCardProps) =>
+  async (dispatch: Dispatch<cardActionTypes>) => {
+
+    try {
+      const res = await api.put(`/board/${boardId}/list/${listId}/card`, {
+        text
+      });
+
+      dispatch({
+        type: ADD_CARD,
+        payload: res.data.lists
+      });
+    } catch (err) {
+      dispatch({
+        type: CARD_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      });
+    }
+  }
 
 export const moveCardItem = ({
   boardId,
@@ -32,7 +46,9 @@ export const moveCardItem = ({
   droppableIndexEnd,
   draggableId,
   type
-}: IDrag) => (dispatch: Dispatch<dragActionTypes>) =>{
+}: IDrag) => async (dispatch: Dispatch<dragActionTypes>) => {
+  console.log(droppableIdStart, droppableIdEnd, droppableIndexStart, droppableIndexEnd, draggableId, type);
+
   dispatch({
     type: DRAG_HAPPENED,
     payload: {
@@ -44,29 +60,57 @@ export const moveCardItem = ({
       draggableId,
       type
     }
-  })
+  });
+
+  await api.put(`/board/drag/${boardId}`, {
+    droppableIdStart,
+    droppableIdEnd,
+    droppableIndexStart,
+    droppableIndexEnd,
+    type
+  });
 }
 
-interface editCardItemProps {
-  id: string
+export interface editCardItemProps {
+  boardId: string;
+  listId: string;
+  cardId: string
   text: string
 }
 
-export const editCardItem = ({ id, text }: editCardItemProps) => 
-  (dispatch: Dispatch<cardActionTypes>) => {
-  console.log(id);
-  dispatch({
-    type: EDIT_CARD_TEXT,
-    payload: {
-      id,
-      text
-    }
-  });
-};
-
-export const removeCardItem = () => 
-  (dispatch: Dispatch<cardActionTypes>) => {
+export const editCardItem = ({ boardId, listId, cardId, text }: editCardItemProps) =>
+  async (dispatch: Dispatch<cardActionTypes>) => {
     dispatch({
-      type: REMOVE_CARD
+      type: EDIT_CARD_TEXT,
+      payload: {
+        boardId,
+        listId,
+        cardId,
+        text
+      }
     });
+
+    await api.put(`/board/update/${boardId}/list/${listId}/card/${cardId}`, {
+      text
+    });
+  };
+
+
+export interface removeCardItemProps {
+  boardId: string;
+  listId: string;
+  cardId: string;
 }
+
+export const removeCardItem = ({ boardId, listId, cardId }: removeCardItemProps) =>
+  async (dispatch: Dispatch<cardActionTypes>) => {
+    dispatch({
+      type: REMOVE_CARD,
+      payload: {
+        listId,
+        cardId
+      }
+    });
+
+    await api.delete(`/board/${boardId}/list/${listId}/card/${cardId}`);
+  }

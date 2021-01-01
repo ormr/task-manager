@@ -4,7 +4,8 @@ import { ICard } from './types';
 const Schema = mongoose.Schema;
 
 const CardSchema = new Schema({
-  id: {
+  cardId: {
+    required: true,
     type: String
   },
   listId: [
@@ -13,8 +14,9 @@ const CardSchema = new Schema({
     }
   ],
   text: {
+    required: true,
     type: String
   }
 });
 
-export const Card = model<ICard>('card', CardSchema);
+export const Card = model<ICard>('Card', CardSchema);

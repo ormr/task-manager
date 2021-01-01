@@ -1,20 +1,20 @@
 require('dotenv').config();
 import bodyParser from 'body-parser';
-import express, { Application } from 'express';
+import cors from 'cors';
+import express from 'express';
 import { connectDatabase } from './database';
 
 import { boardRouter, cardRouter, listRouter } from './routes/api'
 
-const app: Application = express();
+const app: express.Application = express();
 
 connectDatabase();
 
+app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/boards', boardRouter);
-app.use('/cards', cardRouter);
-app.use('/lists', listRouter);
+app.use('/api/board', boardRouter);
 
 app.listen(process.env.PORT, () => {
-  console.log(`[app]: Server started on http://localhost:${process.env.PORT}`)
+  console.log(`[app]: Server started on http://localhost:${process.env.PORT}`);
 });

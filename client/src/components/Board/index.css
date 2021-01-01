@@ -1,9 +1,10 @@
 .board {
-  background-color: #F2F5FC;
+  background-color: #f2f5fc;
   border-radius: 5px;
   padding: 10px;
   width: 350px;
   height: 75px;
   margin: 0 10px;
   text-decoration: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }

@@ -1,12 +1,22 @@
+// Board
+export const GET_BOARDS = 'GET_BOARDS';
 export const CREATE_BOARD = 'CREATE_BOARD';
 export const REMOVE_BOARD = 'REMOVE_BOARD';
+export const BOARD_ERROR = 'BOARD_ERROR';
+// Drag
 export const DRAG_HAPPENED = 'DRAG_HAPPENED';
+// Card
+export const GET_CARD = 'GET_CARD';
 export const ADD_CARD = 'ADD_CARD';
 export const EDIT_CARD_TEXT = 'EDIT_CARD_TEXT';
 export const REMOVE_CARD = 'REMOVE_CARD';
+export const CARD_ERROR = 'CARD_ERROR';
+// List
+export const GET_LIST = 'GET_LIST';
 export const ADD_LIST = 'ADD_LIST';
 export const REMOVE_LIST = 'REMOVE_LIST';
 export const EDIT_LIST_TITLE = 'EDIT_LIST_TITLE';
+export const LIST_ERROR = 'LIST_ERROR';
 
 
 export interface IState {
@@ -16,26 +26,24 @@ export interface IState {
 }
 
 export interface IBoard {
-  id: number
+  boardId: string
   title: string
   lists: string[]
 }
 
 export interface IList {
-  boardId?: number
-  id: string
-  title: string
-  cards?: string[]
+  listId: string;
+  name: string
+  cards: ICard[]
 };
 
 export interface ICard {
-  id: string
-  listId: string
+  cardId: string
   text: string
 }
 
 export interface IDrag {
-  boardId: number
+  boardId: string
   droppableIdStart: string
   droppableIdEnd: string
   droppableIndexStart: number
@@ -45,6 +53,20 @@ export interface IDrag {
 }
 
 // Board
+
+
+interface errorBoardAction {
+  type: typeof BOARD_ERROR
+  payload: {
+    msg: string;
+    status: string;
+  }
+}
+
+interface getBoardAction {
+  type: typeof GET_BOARDS,
+  payload: IBoard[]
+}
 
 interface createBoardAction {
   type: typeof CREATE_BOARD
@@ -57,12 +79,19 @@ interface removeBoardAction {
 };
 
 export type boardActionTypes =
+  | getBoardAction
   | createBoardAction
   | removeBoardAction
   | addListAction
-  | dragHappened;
+  | dragHappened
+  | errorBoardAction;
 
 // List
+
+interface getListAction {
+  type: typeof GET_LIST,
+  payload: IList
+}
 
 interface addListAction {
   type: typeof ADD_LIST
@@ -71,20 +100,38 @@ interface addListAction {
 
 interface removeListAction {
   type: typeof REMOVE_LIST
-  payload?: IList
+  payload: {
+    listId: string;
+  }
 };
 
 interface editListTitleAction {
   type: typeof EDIT_LIST_TITLE
-  payload?: IList
+  payload: {
+    boardId: string;
+    listId: string;
+    name: string;
+  }
+}
+
+interface errorListAction {
+  type: typeof LIST_ERROR
+  payload: {
+    msg: string;
+    status: string;
+  }
 }
 
 export type listActionTypes =
   | addListAction
   | removeListAction
+  | removeCardAction
   | addCardAction
   | editListTitleAction
-  | dragActionTypes;
+  | editCardTextAction
+  | dragActionTypes
+  | getListAction
+  | errorListAction;
 
 // Drag
 
@@ -97,22 +144,44 @@ export type dragActionTypes = dragHappened;
 
 // Card
 
+
+interface errorCardAction {
+  type: typeof CARD_ERROR
+  payload: {
+    msg: string;
+    status: string;
+  }
+}
+
 interface addCardAction {
   type: typeof ADD_CARD
-  payload: ICard
+  payload: {
+    listId: string;
+    cardId: string;
+    text: string;
+  }
 };
 
-interface editCardAction {
+interface editCardTextAction {
   type: typeof EDIT_CARD_TEXT
   payload: {
-    id: string
+    boardId: string;
+    listId: string;
+    cardId: string
     text: string
   }
 }
 
 interface removeCardAction {
   type: typeof REMOVE_CARD
-  payload?: ICard
+  payload: {
+    listId: string;
+    cardId: string;
+  }
 };
 
-export type cardActionTypes = addCardAction | removeCardAction | editCardAction;
+export type cardActionTypes =
+  | addCardAction
+  | removeCardAction
+  | editCardTextAction
+  | errorCardAction;

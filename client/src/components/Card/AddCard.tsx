@@ -1,19 +1,21 @@
 import React from 'react';
-import './index.css'
+import './index.css';
 
-import { ICard } from '../../actions/constants';
 import { connect } from 'react-redux';
 import { addCardItem } from '../../actions/cardsActions';
-import { useOutsideClick } from '../../assets/custom-hooks/useOutsideClick'
+import { useOutsideClick } from '../../assets/custom-hooks/useOutsideClick';
 
 interface Props {
-  listId: string
-  cards: ICard[]
-  addCardItem: (props: any) => any
+  boardId: string;
+  listId: string;
+  addCardItem: (props: any) => any;
 }
 
-
-const AddCardView: React.FC<Props> = ({ listId, cards, addCardItem }: Props) => {
+const AddCardView: React.FC<Props> = ({
+  boardId,
+  listId,
+  addCardItem,
+}: Props) => {
   const [text, setText] = React.useState('');
   const [show, setShow] = React.useState(false);
 
@@ -21,7 +23,7 @@ const AddCardView: React.FC<Props> = ({ listId, cards, addCardItem }: Props) => 
 
   useOutsideClick(divRef, () => {
     if (show) setShow(false);
-  })
+  });
 
   const showInput = () => {
     if (show) {
@@ -32,46 +34,57 @@ const AddCardView: React.FC<Props> = ({ listId, cards, addCardItem }: Props) => 
     } else {
       setShow(!show);
     }
-  }
+  };
 
   const onAddCard = (listId: string, text: string) => {
-      addCardItem({
-        listId,
-        text
-      });
-  }
+    addCardItem({
+      boardId,
+      listId,
+      text,
+    });
+  };
 
   const onKeyPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       onAddCard(listId, text);
       setText('');
     }
-  }
+  };
 
   return (
     <div className="add-card-item" ref={divRef}>
-    {
-     show ?
-      <input type="text" onKeyDown={onKeyPressed} value={text} placeholder="Card text" onChange={(e) => setText(e.target.value)}/>
-     : null
-    }
+      {show ? (
+        <input
+          type="text"
+          onKeyDown={onKeyPressed}
+          value={text}
+          placeholder="Card text"
+          onChange={(e) => setText(e.target.value)}
+        />
+      ) : null}
       <button className="add-card-button" onClick={showInput}>
         <span className="add-card--icon">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" width="2" height="10" fill="#A9ACBF"/>
-          <rect y="6" width="2" height="10" transform="rotate(-90 0 6)" fill="#A9ACBF"/>
-        </svg>
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect x="4" width="2" height="10" fill="#A9ACBF" />
+            <rect
+              y="6"
+              width="2"
+              height="10"
+              transform="rotate(-90 0 6)"
+              fill="#A9ACBF"
+            />
+          </svg>
         </span>
         Add another card
       </button>
     </div>
   );
-}
+};
 
-const mapStateToProps = ({cards}: any) => {
-  return {
-    cards
-  };
-}
-
-export const AddCard = connect(mapStateToProps, { addCardItem })(AddCardView);
+export const AddCard = connect(null, { addCardItem })(AddCardView);

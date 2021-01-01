@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './index.css';
 
 import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
 
@@ -18,19 +18,20 @@ const App: React.FC = (): JSX.Element => {
         <Router>
           <Switch>
             <Route path="/" component={BoardsPage} exact />
-            <Route path="/board/:id" render={({ match }) => {
-              const { id } = match.params;
+            <Route
+              path="/board/:id"
+              render={({ match }) => {
+                const { id } = match.params;
 
-              return <BoardPage boardId={Number(id)} />
-            }} />
+                return <BoardPage boardId={id} />;
+              }}
+            />
             <Route component={ErrorPage} />
           </Switch>
         </Router>
       </DndProvider>
     </Provider>
   );
-}
-
-export {
-  App
 };
+
+export { App };

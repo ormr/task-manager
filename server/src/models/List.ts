@@ -4,20 +4,23 @@ import { IList } from './types';
 const Schema = mongoose.Schema;
 
 const ListSchema = new Schema({
-  boardId: {
+  listId: {
+    required: true,
     type: String
   },
-  id: {
-    type: Schema.Types.ObjectId
+  boardId: {
+    required: true,
+    type: String
   },
   title: {
+    required: true,
     type: String
   },
-  lists: [
+  cards: [
     {
       type: String
     }
   ]
 });
 
-export const List = model<IList>('list', ListSchema)
+export const List = model<IList>('List', ListSchema)

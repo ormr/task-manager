@@ -1,32 +1,37 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import './BoardsPage.css'
+import './BoardsPage.css';
 
-import { IState, IBoard } from '../actions/constants'
+import { getBoards } from '../actions/boardActions';
+import { IState, IBoard } from '../actions/constants';
 import { BoardLink } from '../components/Board';
 import { AddItem } from '../components/AddItem';
 
 interface Props {
-  boards: IBoard[]
+  boards: IBoard[];
+  getBoards: () => any;
 }
 
-const BoardsPageView: React.FC<Props> = ({ boards }: Props): JSX.Element => {
+const BoardsPageView: React.FC<Props> = ({ boards, getBoards }: Props) => {
+  React.useEffect(() => {
+    getBoards();
+  }, [getBoards]);
   return (
     <div className="boards">
-      {
-        boards.map(({ id, title }: IBoard) => (
-          <BoardLink key={id} id={id} title={title} />
-        ))
-      }
-        <AddItem item="board" />
+      {boards.map(({ boardId, title }: IBoard) => (
+        <BoardLink key={boardId} id={boardId} title={title} />
+      ))}
+      <AddItem item="board" />
     </div>
   );
 };
 
 const mapStateToProps = ({ boards }: IState) => {
   return {
-    boards
+    boards,
   };
-}
+};
 
-export const BoardsPage = connect(mapStateToProps)(BoardsPageView)
+export const BoardsPage = connect(mapStateToProps, { getBoards })(
+  BoardsPageView
+);
