@@ -107,7 +107,9 @@ interface createBoardAction {
 
 interface removeBoardAction {
   type: typeof REMOVE_BOARD
-  payload?: IBoardPreview
+  payload: {
+    boardId: string;
+  }
 };
 
 export type boardPreviewActionTypes =

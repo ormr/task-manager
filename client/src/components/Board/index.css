@@ -1,10 +1,24 @@
 .board {
   background-color: #f2f5fc;
   border-radius: 5px;
-  padding: 10px;
   width: 350px;
   height: 75px;
   margin: 0 10px;
   text-decoration: none;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.board__link {
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.board button {
+  position: absolute;
+  right: 5px;
+  top: 5px;
 }

@@ -28,7 +28,7 @@ export const List: React.FC<Props> = ({
         {title}
       </Title>
       <div className="list-item-inner">
-        {cards.map((card, index: number) => {
+        {cards.map((card, index) => {
           return !card ? null : (
             <Card
               key={card.cardId}

@@ -32,7 +32,7 @@ const BoardsPageView: React.FC<Props> = ({
   return (
     <div className="boards">
       {boards.map(({ boardId, title }) => (
-        <BoardLink key={boardId} id={boardId} title={title} />
+        <BoardLink key={boardId} boardId={boardId} title={title} />
       ))}
       <AddItem item="board" />
     </div>

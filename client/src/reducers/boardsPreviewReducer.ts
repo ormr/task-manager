@@ -22,11 +22,17 @@ export const boardPreviewReducer = (state: IBoardsPreview = initialState, action
       return { loading: false, error: false, boards: action.payload };
     case FETCH_BOARDS_PREVIEW_FAILURE:
       return { loading: false, error: true, boards: [] };
-    case CREATE_BOARD:
+    case CREATE_BOARD: {
       const { boardId, title: boardTitle } = action.payload
       return { ...state, boards: [...state.boards, { boardId, title: boardTitle }] };
+    }
     case REMOVE_BOARD: {
-      return state;
+      const { boardId } = action.payload;
+      const newBoards = state.boards.filter((board) => board.boardId !== boardId);
+      return {
+        ...state,
+        boards: newBoards
+      }
     }
     default:
       return state;

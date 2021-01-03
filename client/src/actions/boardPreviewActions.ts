@@ -44,9 +44,25 @@ export const createBoard = ({ title }: CreateBoardProps) =>
     }
   };
 
-export const removeBoard = () =>
-  (dispatch: Dispatch<boardPreviewActionTypes>) => {
-    dispatch({
-      type: REMOVE_BOARD
-    });
+export interface removeBoardProps {
+  boardId: string;
+}
+
+export const removeBoard = ({ boardId }: removeBoardProps) =>
+  async (dispatch: Dispatch<boardPreviewActionTypes>) => {
+    try {
+      await api.delete(`/board/${boardId}`);
+
+      dispatch({
+        type: REMOVE_BOARD,
+        payload: {
+          boardId
+        }
+      });
+    } catch (err) {
+      dispatch({
+        type: BOARD_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      });
+    }
   }
