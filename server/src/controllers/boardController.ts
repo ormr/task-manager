@@ -7,14 +7,11 @@ export const boardController = {
   getAll: async (_req: Request, res: Response, _next: NextFunction) => {
     try {
       const boards = await Board.find();
-      const newBoards = boards.map(({ boardId, title, lists }) => {
-
-        const newLists = lists.map((list) => list.listId);
+      const newBoards = boards.map(({ boardId, title }) => {
 
         return {
           boardId,
           title,
-          lists: newLists
         };
       })
       return res.json(newBoards);

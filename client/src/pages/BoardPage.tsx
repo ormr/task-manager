@@ -1,26 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import './BoardPage.css';
 
-import { IState, IList, IDrag } from '../actions/constants';
+import { IState, IBoard, IDrag } from '../actions/constants';
 import { moveCardItem } from '../actions/cardsActions';
 import { AddItem } from '../components/AddItem';
 import { List } from '../components/List/List';
 import { ErrorPage } from './ErrorPage';
-import { getLists } from '../actions/listsActions';
+import { getLists } from '../actions/boardActions';
+import { Spinner } from '../components/Spinner';
 
 interface Props {
   boardId: string;
-  lists: IList[];
+  board: IBoard;
   moveCardItem: (props: IDrag) => void;
   getLists: (props: { boardId: string }) => void;
 }
 
 const BoardPageView: React.FC<Props> = ({
   boardId,
-  lists,
+  board,
   moveCardItem,
   getLists,
 }: Props) => {
@@ -44,14 +44,18 @@ const BoardPageView: React.FC<Props> = ({
     });
   };
 
-  if (!lists) {
+  if (!board.lists) {
     return <ErrorPage />;
+  }
+
+  if (board.loading) {
+    return <Spinner />;
   }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="board-page">
-        <Link to="/">Back</Link>
+        <h2>{board.title}</h2>
         <Droppable droppableId="all-lists" direction="horizontal" type="list">
           {(provided) => (
             <div
@@ -59,7 +63,7 @@ const BoardPageView: React.FC<Props> = ({
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {lists.map(({ listId, cards, name }, index) => {
+              {board.lists.map(({ listId, cards, name }, index) => {
                 return (
                   <List
                     key={listId}
@@ -81,8 +85,8 @@ const BoardPageView: React.FC<Props> = ({
   );
 };
 
-const mapStateToProps = ({ lists }: IState) => {
-  return { lists };
+const mapStateToProps = ({ board }: IState) => {
+  return { board };
 };
 
 export const BoardPage = connect(mapStateToProps, { getLists, moveCardItem })(

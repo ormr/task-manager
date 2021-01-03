@@ -1,0 +1,22 @@
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50px;
+  background: #f2f5fc;
+  position: relative;
+}
+
+.nav__link {
+  text-decoration: none;
+}
+
+.nav button {
+  cursor: pointer;
+  border: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+}

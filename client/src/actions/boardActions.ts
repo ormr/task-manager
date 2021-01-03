@@ -1,47 +1,108 @@
 import { Dispatch } from 'redux';
-import { api } from '../utils'
-import { BOARD_ERROR, GET_BOARDS, CREATE_BOARD, REMOVE_BOARD, boardActionTypes } from './constants';
+import { api } from '../utils';
+import { ADD_LIST, EDIT_LIST_TITLE, REMOVE_LIST, LIST_ERROR, boardActionTypes, FETCH_BOARD, FETCH_BOARD_SUCCESS, FETCH_BOARD_FAILURE } from './constants';
 
-interface CreateBoardProps {
-  title: string
+interface getListsProps {
+  boardId: string;
 }
 
-export const getBoards = () => async (dispatch: Dispatch<boardActionTypes>) => {
+export const getLists = ({ boardId }: getListsProps) => async (dispatch: Dispatch<boardActionTypes>) => {
   try {
-    const res = await api.get('/board/all');
+    dispatch({
+      type: FETCH_BOARD,
+      payload: {}
+    });
+
+
+    const res = await api.get(`/board/${boardId}`);
 
     dispatch({
-      type: GET_BOARDS,
+      type: FETCH_BOARD_SUCCESS,
       payload: res.data
     });
   } catch (err) {
     dispatch({
-      type: BOARD_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      type: FETCH_BOARD_FAILURE,
+      payload: {}
     });
   }
 }
 
-export const createBoard = ({ title }: CreateBoardProps) =>
+interface addListProps {
+  boardId: string;
+  name: string
+}
+
+export const addList = ({ boardId, name }: addListProps) =>
   async (dispatch: Dispatch<boardActionTypes>) => {
     try {
-      const res = await api.post('/board', { title });
+      const res = await api.put(`/board/${boardId}/list`, {
+        boardId,
+        name
+      });
 
       dispatch({
-        type: CREATE_BOARD,
-        payload: res.data
+        type: ADD_LIST,
+        payload: res.data.lists
       });
     } catch (err) {
       dispatch({
-        type: BOARD_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status }
+        type: LIST_ERROR,
+        payload: { msg: err, status: err }
       });
     }
-  };
+  }
 
-export const removeBoard = () =>
-  (dispatch: Dispatch<boardActionTypes>) => {
+export interface editTitleProps {
+  boardId: string;
+  listId: string
+  name: string
+}
+
+export const editListTitle = ({ boardId, listId, name }: editTitleProps) =>
+  async (dispatch: Dispatch<boardActionTypes>) => {
     dispatch({
-      type: REMOVE_BOARD
+      type: EDIT_LIST_TITLE,
+      payload: {
+        boardId,
+        listId,
+        name
+      }
     });
+
+    try {
+      await api.put(`/board/update/${boardId}/list/${listId}`, {
+        name
+      });
+    } catch (err) {
+      dispatch({
+        type: LIST_ERROR,
+        payload: { msg: err, status: err }
+      });
+    }
+  }
+
+export interface removeListProps {
+  boardId: string;
+  listId: string;
+}
+
+export const removeList = ({ boardId, listId }: removeListProps) =>
+  async (dispatch: Dispatch<boardActionTypes>) => {
+
+    dispatch({
+      type: REMOVE_LIST,
+      payload: {
+        listId
+      }
+    });
+
+    try {
+      await api.delete(`/board/${boardId}/list/${listId}`);
+    } catch (err) {
+      dispatch({
+        type: LIST_ERROR,
+        payload: { msg: err, status: err }
+      });
+    }
   }

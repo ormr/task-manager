@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createBoard } from '../../actions/boardActions';
-import { addList } from '../../actions/listsActions';
+import { createBoard } from '../../actions/boardPreviewActions';
+import { addList } from '../../actions/boardActions';
 import { useOutsideClick } from '../../assets/custom-hooks/useOutsideClick';
 
 import './AddItem.css';

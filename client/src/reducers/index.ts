@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import { boardReducer } from './boardsReducer';
-import { listReducer } from './listsReducer';
+import { boardPreviewReducer } from './boardsPreviewReducer';
+import { boardReducer } from './boardReducer';
 
 
 const rootReducer = combineReducers({
-  boards: boardReducer,
-  lists: listReducer
+  boards: boardPreviewReducer,
+  board: boardReducer
 });
 
 export {

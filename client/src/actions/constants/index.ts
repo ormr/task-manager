@@ -1,4 +1,7 @@
 // Board
+export const FETCH_BOARDS_PREVIEW = 'FETCH_BOARDS_PREVIEW';
+export const FETCH_BOARDS_PREVIEW_SUCCESS = 'FETCH_BOARDS_PREVIEW_SUCCESS';
+export const FETCH_BOARDS_PREVIEW_FAILURE = 'FETCH_BOARDS_PREVIEW_FAILURE';
 export const GET_BOARDS = 'GET_BOARDS';
 export const CREATE_BOARD = 'CREATE_BOARD';
 export const REMOVE_BOARD = 'REMOVE_BOARD';
@@ -11,8 +14,12 @@ export const ADD_CARD = 'ADD_CARD';
 export const EDIT_CARD_TEXT = 'EDIT_CARD_TEXT';
 export const REMOVE_CARD = 'REMOVE_CARD';
 export const CARD_ERROR = 'CARD_ERROR';
+// Board
+export const GET_BOARD = 'GET_BOARD';
+export const FETCH_BOARD = 'FETCH_BOARD';
+export const FETCH_BOARD_SUCCESS = 'FETCH_BOARD_SUCCESS';
+export const FETCH_BOARD_FAILURE = 'FETCH_BOARD_FAILURE';
 // List
-export const GET_LIST = 'GET_LIST';
 export const ADD_LIST = 'ADD_LIST';
 export const REMOVE_LIST = 'REMOVE_LIST';
 export const EDIT_LIST_TITLE = 'EDIT_LIST_TITLE';
@@ -20,15 +27,26 @@ export const LIST_ERROR = 'LIST_ERROR';
 
 
 export interface IState {
-  boards: IBoard[]
-  lists: IList[]
-  cards: ICard[]
+  boards: IBoardsPreview
+  board: IBoard
+}
+
+export interface IBoardsPreview {
+  loading: boolean;
+  error: boolean;
+  boards: IBoardPreview[];
+}
+
+export interface IBoardPreview {
+  boardId: string
+  title: string
 }
 
 export interface IBoard {
-  boardId: string
-  title: string
-  lists: string[]
+  loading: boolean;
+  error: boolean;
+  title: string;
+  lists: IList[];
 }
 
 export interface IList {
@@ -52,8 +70,7 @@ export interface IDrag {
   type: string
 }
 
-// Board
-
+// BoardPreview
 
 interface errorBoardAction {
   type: typeof BOARD_ERROR
@@ -63,34 +80,61 @@ interface errorBoardAction {
   }
 }
 
-interface getBoardAction {
-  type: typeof GET_BOARDS,
-  payload: IBoard[]
+interface fetchBoardsPreviewAction {
+  type: typeof FETCH_BOARDS_PREVIEW
+  payload: IBoardPreview[]
 }
+
+interface fetchBoardsPreviewActionSuccess {
+  type: typeof FETCH_BOARDS_PREVIEW_SUCCESS,
+  payload: IBoardPreview[]
+}
+
+interface fetchBoardsPreviewActionFailure {
+  type: typeof FETCH_BOARDS_PREVIEW_FAILURE,
+  payload: IBoardPreview[]
+}
+
+// interface getBoardsPreviewAction {
+//   type: typeof GET_BOARDS,
+//   payload: IBoardPreview[]
+// }
 
 interface createBoardAction {
   type: typeof CREATE_BOARD
-  payload: IBoard
+  payload: IBoardPreview
 };
 
 interface removeBoardAction {
   type: typeof REMOVE_BOARD
-  payload?: IBoard
+  payload?: IBoardPreview
 };
 
-export type boardActionTypes =
-  | getBoardAction
+export type boardPreviewActionTypes =
+  | fetchBoardsPreviewAction
+  | fetchBoardsPreviewActionSuccess
+  | fetchBoardsPreviewActionFailure
   | createBoardAction
   | removeBoardAction
   | addListAction
   | dragHappened
   | errorBoardAction;
 
-// List
+// Board
 
-interface getListAction {
-  type: typeof GET_LIST,
-  payload: IList
+interface fetchBoardAction {
+  type: typeof FETCH_BOARD
+  payload: IBoard | {}
+}
+
+interface fetchBoardActionSuccess {
+  type: typeof FETCH_BOARD_SUCCESS,
+  payload: IBoard
+}
+
+interface fetchBoardActionFailure {
+  type: typeof FETCH_BOARD_FAILURE,
+  payload: IBoard | {}
 }
 
 interface addListAction {
@@ -122,7 +166,10 @@ interface errorListAction {
   }
 }
 
-export type listActionTypes =
+export type boardActionTypes =
+  | fetchBoardAction
+  | fetchBoardActionSuccess
+  | fetchBoardActionFailure
   | addListAction
   | removeListAction
   | removeCardAction
@@ -130,7 +177,6 @@ export type listActionTypes =
   | editListTitleAction
   | editCardTextAction
   | dragActionTypes
-  | getListAction
   | errorListAction;
 
 // Drag

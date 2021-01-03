@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addList } from '../../actions/listsActions';
+import { addList } from '../../actions/boardActions';
 import './index.css';
 
 interface Props {

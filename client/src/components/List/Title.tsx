@@ -6,7 +6,7 @@ import {
   editTitleProps,
   removeList,
   removeListProps,
-} from '../../actions/listsActions';
+} from '../../actions/boardActions';
 
 interface Props {
   boardId: string;

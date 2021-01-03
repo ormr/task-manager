@@ -1,22 +1,33 @@
 import {
-  IList,
+  IBoard,
   ADD_LIST,
   ADD_CARD,
   DRAG_HAPPENED,
   EDIT_LIST_TITLE,
   EDIT_CARD_TEXT,
-  listActionTypes,
-  GET_LIST,
+  boardActionTypes,
   REMOVE_LIST,
-  REMOVE_CARD
+  REMOVE_CARD,
+  FETCH_BOARD,
+  FETCH_BOARD_SUCCESS,
+  FETCH_BOARD_FAILURE,
 } from '../actions/constants';
 
-const initialState: IList[] = [];
+const initialState: IBoard = {
+  loading: false,
+  error: false,
+  title: '',
+  lists: []
+};
 
-export const listReducer = (state: IList[] = initialState, action: listActionTypes) => {
+export const boardReducer = (state: IBoard = initialState, action: boardActionTypes) => {
   switch (action.type) {
-    case GET_LIST:
-      return action.payload;
+    case FETCH_BOARD:
+      return { ...state, loading: true };
+    case FETCH_BOARD_SUCCESS:
+      return { loading: false, title: action.payload.title, error: false, lists: action.payload.lists };
+    case FETCH_BOARD_FAILURE:
+      return { ...state, error: true };
     case ADD_LIST:
       return action.payload;
     case ADD_CARD:
@@ -30,15 +41,17 @@ export const listReducer = (state: IList[] = initialState, action: listActionTyp
         type
       } = action.payload;
 
-      const newState = [...state];
+      if (!state.lists) return state;
+
+      const newState = { ...state };
 
       if (type === 'list') {
-        const pulledOutlist = state.splice(droppableIndexStart, 1);
-        state.splice(droppableIndexEnd, 0, ...pulledOutlist);
+        const pulledOutlist = state.lists.splice(droppableIndexStart, 1);
+        state.lists.splice(droppableIndexEnd, 0, ...pulledOutlist);
       }
 
       if (droppableIdStart === droppableIdEnd) {
-        const list = state.find((list) => droppableIdStart === list.listId);
+        const list = state.lists.find((list) => droppableIdStart === list.listId);
         if (!list) return state;
 
         const card = list.cards.splice(droppableIndexStart, 1);
@@ -46,19 +59,20 @@ export const listReducer = (state: IList[] = initialState, action: listActionTyp
       }
 
       if (droppableIdStart !== droppableIdEnd) {
-        const listStart = state.find((list) => droppableIdStart === list.listId);
+        const listStart = state.lists.find((list) => droppableIdStart === list.listId);
         if (!listStart) return state;
         const card = listStart.cards.splice(droppableIndexStart, 1);
 
-        const list = state.find((list) => droppableIdEnd === list.listId);
+        const list = state.lists.find((list) => droppableIdEnd === list.listId);
         if (!list) return state;
         list.cards.splice(droppableIndexEnd, 0, ...card);
       }
       return newState;
     case EDIT_LIST_TITLE: {
-      const newState = [...state]
+      if (!state.lists) return state;
+      const newState = { ...state };
       const { listId, name } = action.payload;
-      const list = state.find((list) => list.listId === listId);
+      const list = state.lists.find((list) => list.listId === listId);
 
       if (!list) return state;
       list.name = name;
@@ -66,9 +80,10 @@ export const listReducer = (state: IList[] = initialState, action: listActionTyp
       return newState;
     }
     case EDIT_CARD_TEXT: {
-      const newState = [...state]
+      if (!state.lists) return state;
+      const newState = { ...state };
       const { listId, cardId, text } = action.payload;
-      const list = state.find((list) => list.listId === listId);
+      const list = state.lists.find((list) => list.listId === listId);
 
       if (!list) return state;
 
@@ -80,14 +95,16 @@ export const listReducer = (state: IList[] = initialState, action: listActionTyp
       return newState;
     }
     case REMOVE_LIST: {
+      if (!state.lists) return state;
       const { listId } = action.payload;
-      const newState = state.filter((list) => list.listId !== listId);
+      const newState = state.lists.filter((list) => list.listId !== listId);
       return newState;
     }
     case REMOVE_CARD: {
-      const newState = [...state];
+      if (!state.lists) return state;
+      const newState = { ...state };
       const { listId, cardId } = action.payload;
-      const list = state.find((list) => list.listId !== listId);
+      const list = state.lists.find((list) => list.listId !== listId);
 
       if (!list) return state;
 

@@ -10,12 +10,14 @@ import { store } from '../../store';
 import { BoardsPage } from '../../pages/BoardsPage';
 import { BoardPage } from '../../pages/BoardPage';
 import { ErrorPage } from '../../pages/ErrorPage';
+import { Nav } from '../Nav';
 
 const App: React.FC = (): JSX.Element => {
   return (
     <Provider store={store}>
       <DndProvider backend={HTML5Backend}>
         <Router>
+          <Nav />
           <Switch>
             <Route path="/" component={BoardsPage} exact />
             <Route

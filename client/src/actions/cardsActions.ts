@@ -6,7 +6,6 @@ import {
   CARD_ERROR,
   EDIT_CARD_TEXT,
   cardActionTypes,
-  IDrag,
   DRAG_HAPPENED,
   dragActionTypes
 } from './constants';
@@ -36,7 +35,17 @@ export const addCardItem = ({ boardId, listId, text }: AddCardProps) =>
         payload: { msg: err.response.statusText, status: err.response.status }
       });
     }
-  }
+  };
+
+interface moveCardItemProps {
+  boardId: string;
+  droppableIdStart: string;
+  droppableIdEnd: string;
+  droppableIndexStart: number;
+  droppableIndexEnd: number;
+  draggableId: string;
+  type: string;
+};
 
 export const moveCardItem = ({
   boardId,
@@ -46,8 +55,7 @@ export const moveCardItem = ({
   droppableIndexEnd,
   draggableId,
   type
-}: IDrag) => async (dispatch: Dispatch<dragActionTypes>) => {
-  console.log(droppableIdStart, droppableIdEnd, droppableIndexStart, droppableIndexEnd, draggableId, type);
+}: moveCardItemProps) => async (dispatch: Dispatch<dragActionTypes>) => {
 
   dispatch({
     type: DRAG_HAPPENED,
@@ -62,13 +70,21 @@ export const moveCardItem = ({
     }
   });
 
-  await api.put(`/board/drag/${boardId}`, {
-    droppableIdStart,
-    droppableIdEnd,
-    droppableIndexStart,
-    droppableIndexEnd,
-    type
-  });
+  try {
+    await api.put(`/board/drag/${boardId}`, {
+      droppableIdStart,
+      droppableIdEnd,
+      droppableIndexStart,
+      droppableIndexEnd,
+      type
+    });
+  } catch (err) {
+    console.error(err);
+    // dispatch({
+    //   type: DRAG_ERROR,
+    //   payload: { msg: err.response.statusText, status: err.response.status }
+    // });
+  }
 }
 
 export interface editCardItemProps {
@@ -90,9 +106,16 @@ export const editCardItem = ({ boardId, listId, cardId, text }: editCardItemProp
       }
     });
 
-    await api.put(`/board/update/${boardId}/list/${listId}/card/${cardId}`, {
-      text
-    });
+    try {
+      await api.put(`/board/update/${boardId}/list/${listId}/card/${cardId}`, {
+        text
+      });
+    } catch (err) {
+      dispatch({
+        type: CARD_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      });
+    }
   };
 
 
@@ -104,6 +127,7 @@ export interface removeCardItemProps {
 
 export const removeCardItem = ({ boardId, listId, cardId }: removeCardItemProps) =>
   async (dispatch: Dispatch<cardActionTypes>) => {
+
     dispatch({
       type: REMOVE_CARD,
       payload: {
@@ -112,5 +136,12 @@ export const removeCardItem = ({ boardId, listId, cardId }: removeCardItemProps)
       }
     });
 
-    await api.delete(`/board/${boardId}/list/${listId}/card/${cardId}`);
+    try {
+      await api.delete(`/board/${boardId}/list/${listId}/card/${cardId}`);
+    } catch (err) {
+      dispatch({
+        type: CARD_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      });
+    }
   }
