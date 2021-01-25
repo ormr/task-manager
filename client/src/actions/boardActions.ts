@@ -13,7 +13,6 @@ export const getLists = ({ boardId }: getListsProps) => async (dispatch: Dispatc
       payload: {}
     });
 
-
     const res = await api.get(`/board/${boardId}`);
 
     dispatch({

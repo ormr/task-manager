@@ -28,10 +28,14 @@ export const boardReducer = (state: IBoard = initialState, action: boardActionTy
       return { loading: false, title: action.payload.title, error: false, lists: action.payload.lists };
     case FETCH_BOARD_FAILURE:
       return { ...state, error: true };
-    case ADD_LIST:
-      return action.payload;
-    case ADD_CARD:
-      return action.payload;
+    case ADD_LIST: {
+      const lists = action.payload;
+      return { ...state, lists };
+    }
+    case ADD_CARD: {
+      const lists = action.payload;
+      return { ...state, lists };
+    }
     case DRAG_HAPPENED:
       const {
         droppableIdStart,
