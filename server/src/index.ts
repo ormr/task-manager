@@ -4,7 +4,7 @@ import cors from 'cors';
 import express from 'express';
 import { connectDatabase } from './database';
 
-import { boardRouter, cardRouter, listRouter } from './routes/api'
+import { boardRouter } from './routes/api'
 
 const app: express.Application = express();
 
