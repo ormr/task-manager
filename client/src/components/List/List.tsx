@@ -1,11 +1,11 @@
 import React from 'react';
-import { Title } from './Title';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import './index.css';
 
 import { ICard } from '../../actions/constants';
 import { Card } from '../Card';
-import { AddCard } from '../Card/AddCard';
+import { AddCard } from '../AddCard';
+import { ItemTitle } from '../ItemTitle';
 
 interface Props {
   cards: ICard[];
@@ -13,6 +13,17 @@ interface Props {
   listId: string;
   title: string;
   index: number;
+  onValueChange: (props: {
+    type: string;
+    listId: string;
+    cardId?: string;
+    value: string;
+  }) => void;
+  onItemDelete: (props: {
+    type: string;
+    listId: string;
+    cardId?: string;
+  }) => void;
 }
 
 export const List: React.FC<Props> = ({
@@ -21,22 +32,28 @@ export const List: React.FC<Props> = ({
   listId,
   title,
   index,
+  onValueChange,
+  onItemDelete,
 }: Props): JSX.Element => {
   const listBody = cards ? (
     <React.Fragment>
-      <Title boardId={boardId} listId={listId}>
+      <ItemTitle
+        type="list"
+        onValueChange={(props) => onValueChange({ listId, ...props })}
+        onItemDelete={(props) => onItemDelete({ listId, ...props })}
+      >
         {title}
-      </Title>
+      </ItemTitle>
       <div className="list-item-inner">
         {cards.map((card, index) => {
           return !card ? null : (
             <Card
               key={card.cardId}
               cardId={card.cardId}
-              boardId={boardId}
-              listId={listId}
               text={card.text}
               index={index}
+              onValueChange={(props) => onValueChange({ listId, ...props })}
+              onItemDelete={(props) => onItemDelete({ listId, ...props })}
             />
           );
         })}

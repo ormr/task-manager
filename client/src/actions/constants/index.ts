@@ -1,21 +1,20 @@
-// Board
+// Fetching boards
 export const FETCH_BOARDS_PREVIEW = 'FETCH_BOARDS_PREVIEW';
 export const FETCH_BOARDS_PREVIEW_SUCCESS = 'FETCH_BOARDS_PREVIEW_SUCCESS';
 export const FETCH_BOARDS_PREVIEW_FAILURE = 'FETCH_BOARDS_PREVIEW_FAILURE';
-export const GET_BOARDS = 'GET_BOARDS';
+
+// Board
 export const CREATE_BOARD = 'CREATE_BOARD';
 export const REMOVE_BOARD = 'REMOVE_BOARD';
 export const BOARD_ERROR = 'BOARD_ERROR';
 // Drag
 export const DRAG_HAPPENED = 'DRAG_HAPPENED';
 // Card
-export const GET_CARD = 'GET_CARD';
 export const ADD_CARD = 'ADD_CARD';
 export const EDIT_CARD_TEXT = 'EDIT_CARD_TEXT';
 export const REMOVE_CARD = 'REMOVE_CARD';
 export const CARD_ERROR = 'CARD_ERROR';
 // Board
-export const GET_BOARD = 'GET_BOARD';
 export const FETCH_BOARD = 'FETCH_BOARD';
 export const FETCH_BOARD_SUCCESS = 'FETCH_BOARD_SUCCESS';
 export const FETCH_BOARD_FAILURE = 'FETCH_BOARD_FAILURE';
@@ -94,11 +93,6 @@ interface fetchBoardsPreviewActionFailure {
   type: typeof FETCH_BOARDS_PREVIEW_FAILURE,
   payload: IBoardPreview[]
 }
-
-// interface getBoardsPreviewAction {
-//   type: typeof GET_BOARDS,
-//   payload: IBoardPreview[]
-// }
 
 interface createBoardAction {
   type: typeof CREATE_BOARD

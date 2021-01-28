@@ -1,22 +1,26 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import { Text } from './Text';
+import { ItemTitle } from '../ItemTitle';
 import './index.css';
 
 interface Props {
-  boardId: string;
-  listId: string;
-  cardId: string;
   index: number;
+  cardId: string;
   text: string;
+  onValueChange: (props: {
+    type: string;
+    cardId: string;
+    value: string;
+  }) => void;
+  onItemDelete: (props: { type: string; cardId: string }) => void;
 }
 
 export const Card: React.FC<Props> = ({
-  boardId,
-  listId,
+  index,
   cardId,
   text,
-  index,
+  onValueChange,
+  onItemDelete,
 }: Props): JSX.Element => {
   return (
     <Draggable draggableId={cardId} index={index}>
@@ -25,11 +29,14 @@ export const Card: React.FC<Props> = ({
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className="card"
         >
-          <Text boardId={boardId} listId={listId} cardId={cardId}>
+          <ItemTitle
+            type="card"
+            onValueChange={(props) => onValueChange({ cardId, ...props })}
+            onItemDelete={(props) => onItemDelete({ cardId, ...props })}
+          >
             {text}
-          </Text>
+          </ItemTitle>
         </div>
       )}
     </Draggable>

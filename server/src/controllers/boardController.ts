@@ -7,7 +7,7 @@ export const boardController = {
   getAll: async (_req: Request, res: Response, _next: NextFunction) => {
     try {
       const boards = await Board.find();
-      const newBoards = boards.map(({ boardId, title }) => {
+      const newBoards = boards.map(({ boardId, title }: any) => {
 
         return {
           boardId,
@@ -40,7 +40,7 @@ export const boardController = {
     try {
       const { title } = req.body;
 
-      const newBoard = {
+      const newBoard: any = {
         boardId: uuidv4(),
         title,
         lists: []
@@ -92,7 +92,7 @@ export const boardController = {
         return res.status(404).json({ msg: 'Board is not found' });
       }
 
-      const list = board.lists.find((list) => list.listId === listId);
+      const list = board.lists.find((list: any) => list.listId === listId);
 
       if (!list) {
         return res.status(404).json({ msg: 'List is not found' });
@@ -146,7 +146,7 @@ export const boardController = {
         return res.status(404).json({ msg: 'Board is not found' });
       }
 
-      const listIndex = board.lists.findIndex((list) => list.listId === listId);
+      const listIndex = board.lists.findIndex((list: any) => list.listId === listId);
 
       const list = board.lists[listIndex];
 
@@ -175,7 +175,7 @@ export const boardController = {
         return res.status(404).json({ msg: 'Board is not found' });
       }
 
-      const listIndex = board.lists.findIndex((list) => list.listId === listId);
+      const listIndex = board.lists.findIndex((list: any) => list.listId === listId);
 
       const list = board.lists[listIndex];
 
@@ -183,7 +183,7 @@ export const boardController = {
         return res.status(404).json({ msg: 'List is not found' });
       }
 
-      const cardIndex = list.cards.findIndex((card) => card.cardId === cardId);
+      const cardIndex = list.cards.findIndex((card: any) => card.cardId === cardId);
 
       const card = list.cards[cardIndex];
 
@@ -221,7 +221,7 @@ export const boardController = {
 
       if (type === 'DEFAULT') {
         if (droppableIdStart === droppableIdEnd) {
-          const list = board.lists.find((list) => droppableIdStart === list.listId);
+          const list = board.lists.find((list: any) => droppableIdStart === list.listId);
 
           if (!list) {
             return res.status(404).json({ msg: 'List is not found' });
@@ -232,14 +232,14 @@ export const boardController = {
         }
 
         if (droppableIdStart !== droppableIdEnd) {
-          const listStart = board.lists.find((list) => droppableIdStart === list.listId);
+          const listStart = board.lists.find((list: any) => droppableIdStart === list.listId);
 
           if (!listStart) {
             return res.status(404).json({ msg: 'List is not found' });
           }
 
           const card = listStart.cards.splice(droppableIndexStart, 1);
-          const list = board.lists.find((list) => droppableIdEnd === list.listId);
+          const list = board.lists.find((list: any) => droppableIdEnd === list.listId);
 
           if (!list) {
             return res.status(404).json({ msg: 'List is not found' });
@@ -284,7 +284,7 @@ export const boardController = {
         return res.status(404).json({ msg: 'Board is not found' });
       }
 
-      board.lists = board.lists.filter((list) => list.listId !== listId);
+      board.lists = board.lists.filter((list: any) => list.listId !== listId);
 
       await board.save();
 
@@ -304,7 +304,7 @@ export const boardController = {
         return res.status(404).json({ msg: 'Board is not found' });
       }
 
-      const listRemoveIndex = board.lists.findIndex((list) => list.listId === listId);
+      const listRemoveIndex = board.lists.findIndex((list: any) => list.listId === listId);
 
       const list = board.lists[listRemoveIndex];
 
@@ -312,7 +312,7 @@ export const boardController = {
         return res.status(404).json({ msg: 'List is not found' });
       }
 
-      const newCards = list.cards.filter((card) => card.cardId !== cardId);
+      const newCards = list.cards.filter((card: any) => card.cardId !== cardId);
 
       list.cards = newCards;
 

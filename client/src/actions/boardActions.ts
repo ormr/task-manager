@@ -52,13 +52,13 @@ export const addList = ({ boardId, name }: addListProps) =>
     }
   }
 
-export interface editTitleProps {
+export interface editListItemProps {
   boardId: string;
   listId: string
   name: string
 }
 
-export const editListTitle = ({ boardId, listId, name }: editTitleProps) =>
+export const editListItem = ({ boardId, listId, name }: editListItemProps) =>
   async (dispatch: Dispatch<boardActionTypes>) => {
     dispatch({
       type: EDIT_LIST_TITLE,
@@ -81,12 +81,12 @@ export const editListTitle = ({ boardId, listId, name }: editTitleProps) =>
     }
   }
 
-export interface removeListProps {
+export interface removeListItemProps {
   boardId: string;
   listId: string;
 }
 
-export const removeList = ({ boardId, listId }: removeListProps) =>
+export const removeListItem = ({ boardId, listId }: removeListItemProps) =>
   async (dispatch: Dispatch<boardActionTypes>) => {
 
     dispatch({

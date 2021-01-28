@@ -101,18 +101,20 @@ export const boardReducer = (state: IBoard = initialState, action: boardActionTy
     case REMOVE_LIST: {
       if (!state.lists) return state;
       const { listId } = action.payload;
-      const newState = state.lists.filter((list) => list.listId !== listId);
-      return newState;
+      const newLists = state.lists.filter((list) => list.listId !== listId);
+      return { ...state, lists: newLists };
     }
     case REMOVE_CARD: {
       if (!state.lists) return state;
       const newState = { ...state };
       const { listId, cardId } = action.payload;
-      const list = state.lists.find((list) => list.listId !== listId);
+      const list = newState.lists.find((list) => list.listId === listId);
 
       if (!list) return state;
 
-      list.cards.filter((card) => card.cardId !== cardId);
+      const newCards = list.cards.filter((card) => card.cardId !== cardId);
+
+      list.cards = newCards;
 
       return newState;
     }

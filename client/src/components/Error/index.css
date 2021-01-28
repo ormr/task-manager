@@ -1,0 +1,12 @@
+.error {
+  width: 100%;
+  height: calc(100% - 50px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.error h3 {
+  padding-top: 25px;
+}

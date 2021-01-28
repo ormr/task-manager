@@ -3,23 +3,28 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "engines": {
+    "node": "14.13.1"
+  },
   "scripts": {
     "start": "nodemon src/index.ts",
     "build": "tsc -p ./",
-    "seed": "ts-node temp/seed.ts"
+    "production": "ts-node src/index.ts",
+    "seed": "ts-node temp/seed.ts",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.10.11",
+    "mongoose": "5.10.1",
     "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.8",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.8",
-    "@types/mongoose": "^5.10.2",
+    "@types/mongoose": "5.10.1",
     "@types/uuid": "^8.3.0",
     "dotenv": "^8.2.0",
     "nodemon": "^2.0.6",

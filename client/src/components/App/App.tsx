@@ -7,9 +7,9 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
 
-import { BoardsPage } from '../../pages/BoardsPage';
-import { BoardPage } from '../../pages/BoardPage';
-import { ErrorPage } from '../../pages/ErrorPage';
+import { BoardList } from '../BoardList';
+import { Board } from '../Board';
+import { Error } from '../Error';
 import { Nav } from '../Nav';
 
 const App: React.FC = (): JSX.Element => {
@@ -19,16 +19,16 @@ const App: React.FC = (): JSX.Element => {
         <Router>
           <Nav />
           <Switch>
-            <Route path="/" component={BoardsPage} exact />
+            <Route path="/" component={BoardList} exact />
             <Route
               path="/board/:id"
               render={({ match }) => {
                 const { id } = match.params;
 
-                return <BoardPage boardId={id} />;
+                return <Board boardId={id} />;
               }}
             />
-            <Route component={ErrorPage} />
+            <Route component={Error} />
           </Switch>
         </Router>
       </DndProvider>

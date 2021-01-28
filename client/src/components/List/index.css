@@ -9,7 +9,7 @@
   min-width: 320px;
 }
 
-.list-item-inner {
+.list-item-body {
   height: 100%;
 }
 
@@ -58,7 +58,7 @@
   border: 1px solid #d0d0f0;
 }
 
-.title-inner {
+.title-body {
   width: 100%;
   cursor: pointer;
   display: flex;

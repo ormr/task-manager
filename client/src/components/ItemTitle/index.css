@@ -1,0 +1,82 @@
+.list-title {
+  margin-bottom: 15px;
+}
+
+.list-title h3 {
+  font-style: 1.15em;
+  width: 100%;
+  height: 100%;
+}
+
+.list-title input {
+  font-size: 1.15em;
+  font-weight: bold;
+  height: 23px;
+  width: 100%;
+  border: 1px solid #d0d0f0;
+}
+
+.list-title__body {
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px;
+  margin-bottom: 15px;
+}
+
+.card-text {
+  display: flex;
+  background-color: #fff;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.card-text__text {
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-text input {
+  margin: -1px;
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+  border: 1px solid #d7d7f0;
+}
+
+.card-text__body {
+  display: flex;
+  width: 100%;
+}
+
+.card-text__inner:not(.active):hover:before {
+  content: ' ';
+  position: absolute;
+  right: 0;
+  background-image: url('../../assets/svg/EditIcon.svg');
+  background-size: 16px 16px;
+  height: 16px;
+  width: 16px;
+}
+
+.card-text__inner {
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+}
+
+.delete-item--button {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.delete-item--icon svg {
+  transform: rotate(45deg);
+}

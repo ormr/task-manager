@@ -39,20 +39,18 @@ const AddItemView: React.FC<Props> = ({
     setName('');
   };
 
-  const showInput = async () => {
-    await setShow(!show);
+  const showInput = () => {
+    setShow(!show);
   };
 
-  const onSubmitPressed = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const onSubmitPressed = () => {
     if (name) {
       onCreateItem(name);
       setShow(!show);
     }
   };
 
-  const onKeyPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const onKeyPressed = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       onCreateItem(name);
     }
