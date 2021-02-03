@@ -56,6 +56,5 @@
     "@types/redux": "^3.6.0",
     "@types/redux-devtools-extension": "^2.13.2",
     "redux-devtools-extension": "^2.13.8"
-  },
-  "proxy": "http://localhost:9000"
+  }
 }

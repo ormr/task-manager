@@ -15,6 +15,11 @@ interface Props {
   listId?: string;
   createBoard: (props: { title: string }) => void;
   addList: (props: { boardId: string; name: string }) => void;
+  addCardItem: (props: {
+    boardId: string;
+    listId: string;
+    text: string;
+  }) => void;
 }
 
 const AddItemView: React.FC<Props> = ({
@@ -23,6 +28,7 @@ const AddItemView: React.FC<Props> = ({
   listId,
   createBoard,
   addList,
+  addCardItem,
 }: Props) => {
   const [name, setName] = React.useState('');
   const [show, setShow] = React.useState(false);
@@ -33,7 +39,7 @@ const AddItemView: React.FC<Props> = ({
     if (show) setShow(false);
   });
 
-  const createItem = (name: string) => {
+  const createItem = (item: string, name: string) => {
     if (!name) return;
 
     if (item === 'board') {
@@ -58,12 +64,12 @@ const AddItemView: React.FC<Props> = ({
   };
 
   const onSubmitPressed = () => {
-    createItem(name);
+    createItem(item, name);
   };
 
   const onKeyPressed = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      createItem(name);
+      createItem(item, name);
     }
   };
 
@@ -71,22 +77,31 @@ const AddItemView: React.FC<Props> = ({
     return (
       <div className="add-card-item" ref={divRef}>
         {show ? (
-          <input
-            type="text"
-            value={name}
-            placeholder={
-              item.slice(0, 1).toUpperCase() + item.slice(1) + ' name'
-            }
-            onKeyDown={onKeyPressed}
-            onChange={(e) => setName(e.target.value)}
-          />
-        ) : null}
-        <button className="add-card-button" onClick={showInput}>
-          <span className="add-card--icon">
-            <AddIcon />
-          </span>
-          Add another card
-        </button>
+          <>
+            <input
+              type="text"
+              value={name}
+              placeholder={
+                item.slice(0, 1).toUpperCase() + item.slice(1) + ' name'
+              }
+              onKeyDown={onKeyPressed}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <button className="add-card-button" onClick={onSubmitPressed}>
+              <span className="add-card--icon">
+                <AddIcon />
+              </span>
+              Add another card
+            </button>
+          </>
+        ) : (
+          <button className="add-card-button" onClick={showInput}>
+            <span className="add-card--icon">
+              <AddIcon />
+            </span>
+            Add another card
+          </button>
+        )}
       </div>
     );
   }

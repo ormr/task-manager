@@ -8,10 +8,7 @@
   },
   "scripts": {
     "start": "nodemon src/index.ts",
-    "build": "tsc -p ./",
-    "production": "ts-node src/index.ts",
-    "seed": "ts-node temp/seed.ts",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --"
+    "build": "tsc -p ./"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -32,6 +29,5 @@
     "nodemon": "^2.0.6",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.5"
-  },
-  "proxy": "http://localhost:9000"
+  }
 }
