@@ -1,17 +1,20 @@
 .board-page {
-  padding-top: 20px;
-  height: 100%;
-  /*  overflow-x: auto;*/
+  padding-top: 10px;
+  height: calc(100% - 50px);
+  display: flex;
+  flex-direction: column;
+}
+
+.board-page h2 {
+  padding-left: 15px;
 }
 
 .lists {
-  padding-top: 20px;
-  height: 100%;
-  width: 100%;
   display: flex;
-  align-items: flex-start;
-  flex-wrap: nowrap;
-  /*  overflow-x: auto;*/
+  padding-top: 15px;
+  flex: 1 1 0%;
+  overflow: auto;
+  white-space: nowrap;
 }
 
 .lists-items {

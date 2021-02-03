@@ -103,7 +103,7 @@ export const boardController = {
         text
       };
 
-      list.cards.unshift(newCard);
+      list.cards.push(newCard);
 
       await board.save();
 

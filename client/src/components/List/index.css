@@ -1,3 +1,7 @@
+.list-item__draggable {
+  align-self: baseline;
+}
+
 .list-item {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   position: relative;

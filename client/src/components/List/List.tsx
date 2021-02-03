@@ -4,7 +4,7 @@ import './index.css';
 
 import { ICard } from '../../actions/constants';
 import { Card } from '../Card';
-import { AddCard } from '../AddCard';
+import { AddItem } from '../AddItem';
 import { ItemTitle } from '../ItemTitle';
 
 interface Props {
@@ -65,6 +65,7 @@ export const List: React.FC<Props> = ({
     <Draggable draggableId={listId} index={index}>
       {(provided) => (
         <div
+          className="list-item__draggable"
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
@@ -78,7 +79,7 @@ export const List: React.FC<Props> = ({
               >
                 {listBody}
                 {provided.placeholder}
-                <AddCard boardId={boardId} listId={listId} />
+                <AddItem item="card" boardId={boardId} listId={listId} />
               </div>
             )}
           </Droppable>

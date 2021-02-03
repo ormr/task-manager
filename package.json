@@ -1,0 +1,8 @@
+{
+  "name": "task-manager",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ormr/task-manager.git",
+  "author": "ormr <seraf.gavrilov@gmail.com>",
+  "license": "MIT"
+}
